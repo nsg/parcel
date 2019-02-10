@@ -1,0 +1,5 @@
+#!/bin/bash
+
+POSTFIX_INSTANCE=/etc/postfix
+
+postconf -h queue_directory

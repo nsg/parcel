@@ -1,0 +1,23 @@
+#!/bin/bash
+
+#
+# Postfix
+#
+
+# Deploy the template files from SNAP to a writable area
+cp -r $SNAP/etc/postfix $SNAP_DATA/etc/
+
+update_maincf_conf() {
+    sed -i "s/__$1__/$2/" $SNAP_DATA/etc/postfix/main.cf
+}
+
+update_maincf_conf MYHOSTNAME "$(snapctl get postfix-myhostname)"
+update_maincf_conf MYDOMAIN "$(snapctl get postfix-myhostname)"
+update_maincf_conf MYORIGIN "$(snapctl get postfix-myhostname)"
+
+cp -r $SNAP/var/spool/postfix/* $SNAP_DATA/var/spool/postfix
+# /etc/aliases
+# /etc/postfix/virtual_alias_maps
+# /etc/postfix/virtual_mailbox_domains
+# /etc/postfix/virtual_mailbox_maps
+# /etc/cron.daily/check-dns-mx-records

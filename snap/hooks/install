@@ -1,0 +1,12 @@
+#!/bin/bash
+
+FQDN=$(hostname -f)
+DOMAIN=$(hostname -d)
+
+#
+# Postfix
+#
+snapctl set postfix-myhostname=$FQDN
+snapctl set postfix-mydomain=$DOMAIN
+snapctl set postfix-myorigin=$FQDN
+snapctl set postfix-mydomain=$DOMAIN
