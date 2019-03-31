@@ -1,5 +1,7 @@
 ---
 
+- import_playbook: config-view.yml
+
 - name: Create and start containers
   hosts: localhost
   gather_facts: no
@@ -30,4 +32,4 @@
   roles:
     - dovecot
 
-- import_playbook: config-view.yml
+- import_playbook: haproxy.yml

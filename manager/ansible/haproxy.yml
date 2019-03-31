@@ -1,0 +1,30 @@
+---
+
+- name: Update haproxy config
+  hosts: localhost
+  gather_facts: no
+  handlers:
+    - name: restart haproxy
+      shell: snapctl restart mailserver.haproxy
+
+  tasks:
+
+    - name: Collects facts from containers
+      setup:
+      delegate_to: "{{ item }}"
+      delegate_facts: yes
+      loop: "{{ groups['containers'] }}"
+
+    # This is needed. If the file exists, Ansible tries to
+    # lookup the files attributes, but is stopped by Apparmor.
+    - name: Remove config view file
+      file:
+        path: "{{ lookup('env','SNAP_DATA') }}/haproxy.cfg"
+        state: absent
+
+    - name: Update haproxy.cfg file
+      template:
+        src: templates/haproxy.cfg.j2
+        dest: "{{ lookup('env','SNAP_DATA') }}/haproxy.cfg"
+        force: yes
+      notify: restart haproxy

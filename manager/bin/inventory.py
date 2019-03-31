@@ -6,29 +6,29 @@ import argparse
 import subprocess
 
 CONF_VALUES = [
-        "domains",
-        "postfix_domain",
-        "postfix_origin",
-        "postfix_relay_host",
+        ("domains", []),
+        ("postfix_domain", False),
+        ("postfix_origin", False),
+        ("postfix_relay_host", False),
     ]
 
-def get_conf(param):
+def get_conf(param, default):
     param = param.replace('_','-')
     try:
         out = subprocess.check_output(["snapctl", "get", param]).decode("utf-8")
     except subprocess.CalledProcessError:
-        return False
+        return default
     if out.strip():
         ret = out.strip().split(",")
         if len(ret) > 1:
             return ret
         return ret[0]
-    return False
+    return default
 
 def get_inventory_vars():
     out = {}
-    for v in CONF_VALUES:
-        out[v] = get_conf(v)
+    for v,dv in CONF_VALUES:
+        out[v] = get_conf(v, dv)
     return out
 
 def main(argv):

@@ -8,13 +8,11 @@
     # This is needed. If the file exists, Ansible tries to
     # lookup the files attributes, but is stopped by Apparmor.
     - name: Remove config view file
-      changed_when: no
       file:
         path: "{{ lookup('env','SNAP_DATA') }}/config-view"
         state: absent
 
     - name: Write config view file
-      changed_when: no
       template:
         src: templates/config-view.j2
         dest: "{{ lookup('env','SNAP_DATA') }}/config-view"

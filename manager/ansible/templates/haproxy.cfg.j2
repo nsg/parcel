@@ -1,0 +1,31 @@
+global
+    maxconn 4096
+
+defaults
+    maxconn 4096
+    timeout connect 10s
+    timeout client 30s
+    timeout server 30s
+    mode http
+
+listen smtp
+  bind *:25
+  mode tcp
+  option smtpchk HELO {{ postfix_domain }}
+  server postfix {{ hostvars['postfix']['ansible_default_ipv4']['address'] }}:25 send-proxy check
+
+listen smtps
+  bind *:587
+  server postfix {{ hostvars['postfix']['ansible_default_ipv4']['address'] }}:587
+
+listen imap
+  bind *:143
+  server postfix {{ hostvars['dovecot']['ansible_default_ipv4']['address'] }}:143
+
+listen stats
+  bind *:8080
+  stats enable
+  stats hide-version
+  stats auth admin:password
+  stats uri /
+

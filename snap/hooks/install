@@ -1,24 +1,5 @@
 #!/bin/bash
 
-#FQDN=$(hostname -f)
-#DOMAIN=$(hostname -d)
-#
-##
-## Postfix
-##
-#snapctl set postfix-myhostname=$FQDN
-#snapctl set postfix-mydomain=$DOMAIN
-#snapctl set postfix-myorigin=$FQDN
-#snapctl set postfix-mydomain=$DOMAIN
-#
-##
-## Deploy default configuration
-##
-#
-## $SNAP_DATA/config will be overlay mounted to /etc/overlay/config
-#cp -r $SNAP/etc/postfix/* $SNAP_DATA/config
-#mkdir -p $SNAP_DATA/{spool,data}
-
 cat <<EOF > $SNAP_DATA/haproxy.cfg
 listen stats
   bind *:8080

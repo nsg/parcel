@@ -126,12 +126,16 @@ non_smtpd_milters = inet:localhost:12301
 # mailboxes, aliases and forwards for all our domains.     #
 ############################################################
 
+{% if domains %}
 # Send mails to Dovecot to manage
 virtual_mailbox_domains =
 {% for domain in domains %}
 	{{ domain }}
 {% endfor %}
+{% endif %}
 virtual_mailbox_base = /var/mail/vhosts
 virtual_mailbox_maps = hash:/etc/postfix/virtual_mailbox_maps
 virtual_alias_maps = hash:/etc/postfix/virtual_alias_maps
 virtual_transport = lmtp:unix:private/dovecot-lmtp
+
+smtpd_upstream_proxy_protocol = haproxy
