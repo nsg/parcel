@@ -43,6 +43,13 @@ apps:
       - network
       - lxd
 
+  haproxy:
+    command: usr/sbin/haproxy -f $SNAP_DATA/haproxy.cfg
+    daemon: simple
+    plugs:
+      - network
+      - network-bind
+
   mailserver:
     command: cat $SNAP_DATA/config-view
 
