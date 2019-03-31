@@ -2,9 +2,12 @@ name: mailserver
 version: '0.1'
 summary: A mailserver in a single snap
 description: |
-  This snap will setup and manage everything you need to run your
-  own mailserver.
+  There are a few pieces that you need to manage your own mail server.
+  This snap makes the process easy, it will setup most things that
+  you expect from a mail server. Because the process is automated and
+  easy expect the installation to be somewhat unflexible.
 
+base: core18
 grade: devel
 confinement: strict
 
@@ -12,13 +15,27 @@ apps:
   mailserver:
     command: "true"
 
-  postfix:
-    command: postmulti -i /etc/postfix -x $SNAP/usr/sbin/postfix
+  postmulti:
+    command: postmulti
     plugs:
       - network
       - network-bind
-    environment:
-      LD_LIBRARY_PATH: $SNAP/usr/lib/postfix/:$SNAP/usr/lib/x86_64-linux-gnu
+
+  postfix:
+    command: postfix
+    plugs:
+      - network
+      - network-bind
+
+  sendmail:
+    command: sendmail
+    plugs:
+      - network
+
+  postconf:
+    command: postconf
+    plugs:
+      - network
 
   shell:
     command: /bin/bash
@@ -28,110 +45,12 @@ apps:
 
 passthrough:
   layout:
-    /etc/postfix:
-      bind: $SNAP_DATA/etc/postfix
-    /usr/lib/postfix:
-      bind: $SNAP/usr/lib/postfix
-    /var/lib/postfix:
-      bind: $SNAP/usr/lib/postfix
-    /var/spool/postfix:
-      bind: $SNAP_DATA/var/spool/postfix
-
-    # Symlink/bind these in place so I do not need to update
-    # the postfix scripts and other tools. Generated with:
-    # for f in $(find prime/usr/sbin/ -type f | cut -d'/' -f4); do echo -e "/usr/sbin/$f:\n  symlink: \$SNAP/usr/sbin/$f"; done
-    /usr/sbin/postdrop:
-      symlink: $SNAP/usr/sbin/postdrop
-    /usr/sbin/qmqp-sink:
-      symlink: $SNAP/usr/sbin/qmqp-sink
-    /usr/sbin/postlog:
-      symlink: $SNAP/usr/sbin/postlog
-    /usr/sbin/make-ssl-cert:
-      symlink: $SNAP/usr/sbin/make-ssl-cert
-    /usr/sbin/qmqp-source:
-      symlink: $SNAP/usr/sbin/qmqp-source
-    /usr/sbin/postmap:
-      symlink: $SNAP/usr/sbin/postmap
-    /usr/sbin/postmulti:
-      symlink: $SNAP/usr/sbin/postmulti
-    /usr/sbin/qshape:
-      symlink: $SNAP/usr/sbin/qshape
-    /usr/sbin/postqueue:
-      symlink: $SNAP/usr/sbin/postqueue
-    /usr/sbin/rmail:
-      symlink: $SNAP/usr/sbin/rmail
-    /usr/sbin/postkick:
-      symlink: $SNAP/usr/sbin/postkick
-    /usr/sbin/postfix-add-policy:
-      symlink: $SNAP/usr/sbin/postfix-add-policy
-    /usr/sbin/posttls-finger:
-      symlink: $SNAP/usr/sbin/posttls-finger
-    /usr/sbin/postconf:
-      symlink: $SNAP/usr/sbin/postconf
-    /usr/sbin/smtp-source:
-      symlink: $SNAP/usr/sbin/smtp-source
-    /usr/sbin/postalias:
-      symlink: $SNAP/usr/sbin/postalias
-    /usr/sbin/postlock:
-      symlink: $SNAP/usr/sbin/postlock
-    /usr/sbin/smtp-sink:
-      symlink: $SNAP/usr/sbin/smtp-sink
-    /usr/sbin/postsuper:
-      symlink: $SNAP/usr/sbin/postsuper
-    /usr/sbin/postfix:
-      symlink: $SNAP/usr/sbin/postfix
-    /usr/sbin/sendmail:
-      symlink: $SNAP/usr/sbin/sendmail
-    /usr/sbin/postfix-add-filter:
-      symlink: $SNAP/usr/sbin/postfix-add-filter
-    /usr/sbin/postcat:
-      symlink: $SNAP/usr/sbin/postcat
-
-    # Link libs, generated with:
-    # for f in $(find prime/usr/lib/x86_64-linux-gnu -maxdepth 1 ! -type d | cut -d'/' -f5); do echo -e "/usr/lib/x86_64-linux-gnu/$f:\n  symlink: \$SNAP/usr/lib/x86_64-linux-gnu/$f"; done
-    # for f in $(find prime/usr/lib/x86_64-linux-gnu -mindepth 2 ! -type d | cut -d'/' -f5,6); do echo -e "/usr/lib/x86_64-linux-gnu/$f:\n  symlink: \$SNAP/usr/lib/x86_64-linux-gnu/$f"; done
-    /usr/lib/x86_64-linux-gnu/libicudata.so.60:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libicudata.so.60
-    /usr/lib/x86_64-linux-gnu/libicuio.so.60.2:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libicuio.so.60.2
-    /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libcrypto.so.1.1
-    /usr/lib/x86_64-linux-gnu/libicutu.so.60.2:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libicutu.so.60.2
-    /usr/lib/x86_64-linux-gnu/libicudata.so.60.2:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libicudata.so.60.2
-    /usr/lib/x86_64-linux-gnu/libicutu.so.60:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libicutu.so.60
-    /usr/lib/x86_64-linux-gnu/libsasl2.so.2.0.25:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libsasl2.so.2.0.25
-    /usr/lib/x86_64-linux-gnu/libssl.so.1.1:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libssl.so.1.1
-    /usr/lib/x86_64-linux-gnu/libicuio.so.60:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libicuio.so.60
-    /usr/lib/x86_64-linux-gnu/libicui18n.so.60.2:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libicui18n.so.60.2
-    /usr/lib/x86_64-linux-gnu/libicuuc.so.60:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libicuuc.so.60
-    /usr/lib/x86_64-linux-gnu/libicutest.so.60:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libicutest.so.60
-    /usr/lib/x86_64-linux-gnu/libicui18n.so.60:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libicui18n.so.60
-    /usr/lib/x86_64-linux-gnu/libicuuc.so.60.2:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libicuuc.so.60.2
-    /usr/lib/x86_64-linux-gnu/libsasl2.so.2:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libsasl2.so.2
-    /usr/lib/x86_64-linux-gnu/libicutest.so.60.2:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/libicutest.so.60.2
-    /usr/lib/x86_64-linux-gnu/engines-1.1/padlock.so:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/engines-1.1/padlock.so
-    /usr/lib/x86_64-linux-gnu/engines-1.1/capi.so:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/engines-1.1/capi.so
-    /usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so.2:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so.2
-    /usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so.2.0.25:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so.2.0.25
-    /usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so:
-      symlink: $SNAP/usr/lib/x86_64-linux-gnu/sasl2/libsasldb.so
+    /etc/overlay/config:
+      bind: $SNAP_DATA/config
+    /etc/overlay/shlibs:
+      bind: $SNAP/usr/lib
+#    /usr/sbin/postdrop:
+#      symlink: $SNAP/usr/sbin/postdrop
 
 parts:
   shell:
@@ -140,27 +59,23 @@ parts:
       - bash
 
   postfix:
-    plugin: dump
-    source: templates
-    stage-packages:
-      - postfix
-    stage:
-      # We do not need these files inside the snap
-      - -etc/init.d
-      - -etc/insserv.conf.d
-      - -etc/network
-      - -etc/ppp
-      - -etc/protocols
-      - -etc/resolvconf
-      - -etc/rpc
-      - -etc/rsyslog.d
-      - -etc/services
-      - -etc/ufw
-      - -lib/systemd
-      - -usr/share/apport
-      - -usr/share/doc
-      - -usr/share/lintian
-      - -usr/share/man
+    plugin: make
+    source: ftp://ftp.aptget.dk/postfix/postfix-release/official/postfix-3.3.2.tar.gz
+    override-build: |
+      make makefiles dynamicmaps=yes shared=yes shlib_directory=/etc/overlay/shlibs config_directory=/etc/overlay/config
+      make
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share
+      mkdir -p $SNAPCRAFT_PART_INSTALL/etc/postfix
+      cp -rv man $SNAPCRAFT_PART_INSTALL/usr/share
+      cp -rv meta $SNAPCRAFT_PART_INSTALL/usr/share
+      cp -rv bin $SNAPCRAFT_PART_INSTALL/bin
+      cp -r libexec $SNAPCRAFT_PART_INSTALL/usr
+      cp -r lib $SNAPCRAFT_PART_INSTALL/usr
+      cp -r conf/* $SNAPCRAFT_PART_INSTALL/etc/postfix
+    build-packages:
+      - build-essential
+      - m4
+      - libdb-dev
 
   dovecot:
     plugin: nil
