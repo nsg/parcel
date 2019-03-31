@@ -1,0 +1,33 @@
+---
+
+- name: Create and start containers
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Create containers
+      lxd_container:
+        name: "{{ item }}"
+        state: started
+        url: unix:/var/snap/lxd/common/lxd/unix.socket
+        source:
+          type: image
+          mode: pull
+          server: https://images.linuxcontainers.org
+          protocol: lxd
+          alias: ubuntu/xenial/amd64
+        profiles: ["default"]
+        wait_for_ipv4_addresses: true
+        timeout: 600
+      loop: "{{ groups['containers'] }}"
+
+- name: Setup Postfix container
+  hosts: postfix
+  roles:
+    - postfix
+
+- name: Setup Dovecot container
+  hosts: dovecot
+  roles:
+    - dovecot
+
+- import_playbook: config-view.yml

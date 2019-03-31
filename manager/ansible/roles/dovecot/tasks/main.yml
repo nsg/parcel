@@ -1,0 +1,49 @@
+---
+
+- name: Install Dovecot
+  apt:
+    name: "{{ item }}"
+  loop:
+    - dovecot-core
+    - dovecot-imapd
+    - dovecot-lmtpd
+    - dovecot-sieve
+    - dovecot-managesieved
+
+- name: Install various packages
+  apt:
+    name: "{{ item }}"
+  loop:
+    - jq
+
+- name: Setup vmail group
+  group:
+    name: vmail
+
+- name: Setup vmail user
+  user:
+    name: vmail
+    createhome: no
+    group: vmail
+    system: yes
+
+- name: Install Dovecot config
+  template:
+    src: dovecot.conf.j2
+    dest: /etc/dovecot/dovecot.conf
+  notify: restart dovecot
+
+- name: Setup maildir for domains (1/2)
+  file:
+    path: /var/mail/vhosts
+    state: directory
+    owner: vmail
+    group: vmail
+
+- name: Setup maildir for domains (2/2)
+  file:
+    path: "/var/mail/vhosts/{{ item }}"
+    state: directory
+    owner: vmail
+    group: vmail
+  loop: "{{ domains }}"

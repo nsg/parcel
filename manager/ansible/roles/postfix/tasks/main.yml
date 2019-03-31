@@ -1,0 +1,63 @@
+---
+
+- name: Install postfix
+  apt:
+    name: postfix
+
+- name: Configure main.cf
+  template:
+    src: main.cf.j2
+    dest: /etc/postfix/main.cf
+  notify: reload postfix
+
+- name: Configure master.cf
+  blockinfile:
+    path: /etc/postfix/master.cf
+    insertafter: "^#submission"
+    content: |
+      submission inet n       -       -       -       -       smtpd
+        -o syslog_name=postfix/submission
+        # Require encryption on submission, we can't force this on
+        # smtp because the mail standard requiers us to recive
+        # unencrypted mails, but we support optimistic encryption.
+        -o smtpd_tls_security_level=encrypt
+        # Only allow us if we are authed with dovecot, throw
+        # everyting else away.
+        -o smtpd_recipient_restrictions=permit_sasl_authenticated,reject
+  notify: reload postfix
+
+- name: Setup aliases
+  lineinfile:
+    dest: /etc/aliases
+    regexp: ^root
+    line: "root: {{ postfix_root_email_to }}"
+  notify: run newaliases
+  when: postfix_root_email_to is defined
+
+- name: Deploy virtual_alias_maps
+  template:
+    src: virtual_alias_maps.j2
+    dest: /etc/postfix/virtual_alias_maps
+  notify: reload virtual_alias_maps
+  tags: alias_maps
+
+- name: Deploy virtual_mailbox_maps
+  template:
+    src: virtual_mailbox_maps.j2
+    dest: /etc/postfix/virtual_mailbox_maps
+  notify: reload virtual_mailbox_maps
+  tags: mailbox_maps
+
+- name: Deploy transport_maps
+  template:
+    src: transport_maps.j2
+    dest: /etc/postfix/transport_maps
+  notify: reload transport_maps
+  tags: transport_maps
+
+- name: Configure postfix stats in collectd
+  copy:
+    src: collectd.conf
+    dest: /etc/collectd.d/postfix.conf
+  notify: restart collectd
+  when: deploy_collectd_stats

@@ -1,24 +1,2 @@
 #!/bin/bash
 
-cat <<EOF > $SNAP_DATA/config/main.cf
-compatibility_level = 2
-queue_directory = $SNAP_DATA/spool
-command_directory = $SNAP/bin
-daemon_directory = $SNAP/usr/libexec/
-data_directory = $SNAP_DATA/data
-mail_owner = root
-unknown_local_recipient_reject_code = 550
-debug_peer_level = 2
-sendmail_path =
-newaliases_path =
-mailq_path =
-setgid_group = mail
-html_directory =
-manpage_directory =
-sample_directory =
-readme_directory =
-inet_protocols = ipv4
-shlib_directory = /etc/overlay/shlibs
-EOF
-
-#$SNAP/bin/postfix set-permissions

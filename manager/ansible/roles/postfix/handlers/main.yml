@@ -1,0 +1,24 @@
+---
+
+- name: reload postfix
+  service:
+    name: postfix
+    state: reloaded
+
+- name: restart collectd
+  service:
+    name: collectd
+    state: restarted
+
+- name: run newaliases
+  command: newaliases
+  notify: reload postfix
+
+- name: reload virtual_alias_maps
+  command: postmap /etc/postfix/virtual_alias_maps
+
+- name: reload virtual_mailbox_maps
+  command: postmap /etc/postfix/virtual_mailbox_maps
+
+- name: reload transport_maps
+  command: postmap /etc/postfix/transport_maps

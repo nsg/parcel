@@ -1,20 +1,20 @@
 #!/bin/bash
 
-FQDN=$(hostname -f)
-DOMAIN=$(hostname -d)
-
+#FQDN=$(hostname -f)
+#DOMAIN=$(hostname -d)
 #
-# Postfix
+##
+## Postfix
+##
+#snapctl set postfix-myhostname=$FQDN
+#snapctl set postfix-mydomain=$DOMAIN
+#snapctl set postfix-myorigin=$FQDN
+#snapctl set postfix-mydomain=$DOMAIN
 #
-snapctl set postfix-myhostname=$FQDN
-snapctl set postfix-mydomain=$DOMAIN
-snapctl set postfix-myorigin=$FQDN
-snapctl set postfix-mydomain=$DOMAIN
-
+##
+## Deploy default configuration
+##
 #
-# Deploy default configuration
-#
-
-# $SNAP_DATA/config will be overlay mounted to /etc/overlay/config
-cp -r $SNAP/etc/postfix/* $SNAP_DATA/config
-mkdir -p $SNAP_DATA/{spool,data}
+## $SNAP_DATA/config will be overlay mounted to /etc/overlay/config
+#cp -r $SNAP/etc/postfix/* $SNAP_DATA/config
+#mkdir -p $SNAP_DATA/{spool,data}

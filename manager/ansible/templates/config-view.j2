@@ -1,0 +1,27 @@
+
+                    Server Status
+########################################################
+{% if not domains %}
+You need to configure at least one domain. This is the
+domain or domains that this server manages email for.
+
+For example:
+$ sudo snap set mailserver domains=example.com
+$ sudo snap set mailserver domains=example.com,example.net
+{% elif not postfix_domain or not postfix_origin %}
+You need to set postfix-domain and postfix-origin. This
+is most likely one of {{ domains }}.
+
+For example:
+$ sudo snap set mailserver postfix-domain=example.com
+$ sudo snap set mailserver postfix-origin=example.com
+{% else %}
+Looks good!
+{% endif %}
+
+             Applied configuration values
+########################################################
+domains            = {{ domains }}
+postfix-domain     = {{ postfix_domain }}
+postfix-origin     = {{ postfix_origin }}
+postfix-relay-host = {{ postfix_relay_host }}

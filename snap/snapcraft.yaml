@@ -12,70 +12,72 @@ grade: devel
 confinement: strict
 
 apps:
-  mailserver:
-    command: "true"
-
-  postmulti:
-    command: postmulti
-    plugs:
-      - network
-      - network-bind
-
-  postfix:
-    command: postfix
-    plugs:
-      - network
-      - network-bind
-
-  sendmail:
-    command: sendmail
-    plugs:
-      - network
-
-  postconf:
-    command: postconf
-    plugs:
-      - network
-
   shell:
-    command: /bin/bash
+    command: bin/snapcraft-preload /bin/bash
+    environment:
+      LXD_DIR: /var/snap/lxd/common/lxd
+      ANSIBLE_LOCAL_TEMP: /tmp
+      ANSIBLE_REMOTE_TMP: /tmp
     plugs:
       - network
       - network-bind
+      - lxd
 
-passthrough:
-  layout:
-    /etc/overlay/config:
-      bind: $SNAP_DATA/config
-    /etc/overlay/shlibs:
-      bind: $SNAP/usr/lib
-#    /usr/sbin/postdrop:
-#      symlink: $SNAP/usr/sbin/postdrop
+  install:
+    command: bin/snapcraft-preload ansible-playbook -i $SNAP/ansible/inventory.yml -i $SNAP/bin/inventory.py $SNAP/ansible/site.yml --diff
+    environment:
+      LXD_DIR: /var/snap/lxd/common/lxd
+      ANSIBLE_LOCAL_TEMP: /tmp
+      ANSIBLE_REMOTE_TMP: /tmp
+    plugs:
+      - network
+      - lxd
+
+  destroy:
+    command: bin/snapcraft-preload ansible-playbook -i $SNAP/ansible/inventory.yml $SNAP/ansible/destroy.yml
+    environment:
+      LXD_DIR: /var/snap/lxd/common/lxd
+      ANSIBLE_LOCAL_TEMP: /tmp
+      ANSIBLE_REMOTE_TMP: /tmp
+    plugs:
+      - network
+      - lxd
+
+  mailserver:
+    command: cat $SNAP_DATA/config-view
 
 parts:
+  snapcraft-preload:
+    # Ansible uses python multiprocessing and semaphores in /dev/shm
+    # Apparmor will block these we need to redirect the calls with
+    # a patched version of sergiusens snapcraft-preload:
+    # https://github.com/sergiusens/snapcraft-preload/pull/29
+    source: https://github.com/diddledan/snapcraft-preload.git
+    source-branch: semaphore-support
+
+    plugin: cmake
+    build-packages:
+      - on amd64:
+        - gcc-multilib
+        - g++-multilib
+
   shell:
     plugin: nil
     stage-packages:
       - bash
 
-  postfix:
-    plugin: make
-    source: ftp://ftp.aptget.dk/postfix/postfix-release/official/postfix-3.3.2.tar.gz
-    override-build: |
-      make makefiles dynamicmaps=yes shared=yes shlib_directory=/etc/overlay/shlibs config_directory=/etc/overlay/config
-      make
-      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share
-      mkdir -p $SNAPCRAFT_PART_INSTALL/etc/postfix
-      cp -rv man $SNAPCRAFT_PART_INSTALL/usr/share
-      cp -rv meta $SNAPCRAFT_PART_INSTALL/usr/share
-      cp -rv bin $SNAPCRAFT_PART_INSTALL/bin
-      cp -r libexec $SNAPCRAFT_PART_INSTALL/usr
-      cp -r lib $SNAPCRAFT_PART_INSTALL/usr
-      cp -r conf/* $SNAPCRAFT_PART_INSTALL/etc/postfix
-    build-packages:
-      - build-essential
-      - m4
-      - libdb-dev
+  manager:
+    plugin: dump
+    source: manager
 
-  dovecot:
+  ansible:
+    plugin: python
+    python-packages:
+      - ansible==2.7.9
+    stage-packages:
+      - lxd
+
+  haproxy:
     plugin: nil
+    stage-packages:
+      - haproxy

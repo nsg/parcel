@@ -1,0 +1,16 @@
+---
+
+all:
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  children:
+    manager:
+      hosts:
+        localhost:
+          ansible_connection: local
+    containers:
+      vars:
+        ansible_connection: lxd
+      hosts:
+        postfix:
+        dovecot:

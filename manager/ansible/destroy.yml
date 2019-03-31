@@ -1,0 +1,12 @@
+---
+
+- name: Destroy containers
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Destroy containers
+      lxd_container:
+        name: "{{ item }}"
+        state: absent
+        url: unix:/var/snap/lxd/common/lxd/unix.socket
+      loop: "{{ groups['containers'] }}"
