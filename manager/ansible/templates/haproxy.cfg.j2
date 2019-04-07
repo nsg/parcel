@@ -14,13 +14,20 @@ listen smtp
   option smtpchk HELO {{ postfix_domain }}
   server postfix {{ hostvars['postfix']['ansible_default_ipv4']['address'] }}:25 send-proxy check
 
-listen smtps
-  bind *:587
-  server postfix {{ hostvars['postfix']['ansible_default_ipv4']['address'] }}:587
+listen imaps
+  bind *:993
+  balance leastconn
+  option tcp-check
+  tcp-check connect port 993 ssl
+  tcp-check expect string * OK
+  stick store-request src
+  stick-table type ip size 200k expire 30m
+  server dovecot {{ hostvars['postfix']['ansible_default_ipv4']['address'] }}:993 send-proxy-v2 check verify none
 
-listen imap
-  bind *:143
-  server postfix {{ hostvars['dovecot']['ansible_default_ipv4']['address'] }}:143
+listen sieve
+  bind *:4190
+  option tcp-check
+  server sieve {{ hostvars['dovecot']['ansible_default_ipv4']['address'] }}:4190 check
 
 listen stats
   bind *:8080

@@ -24,11 +24,15 @@
 
 - name: Setup Postfix container
   hosts: postfix
+  pre_tasks:
+    - include_tasks: container-facts.yml
   roles:
     - postfix
 
 - name: Setup Dovecot container
   hosts: dovecot
+  pre_tasks:
+    - include_tasks: container-facts.yml
   roles:
     - dovecot
 

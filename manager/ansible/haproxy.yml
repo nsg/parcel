@@ -9,11 +9,7 @@
 
   tasks:
 
-    - name: Collects facts from containers
-      setup:
-      delegate_to: "{{ item }}"
-      delegate_facts: yes
-      loop: "{{ groups['containers'] }}"
+    - include_tasks: container-facts.yml
 
     # This is needed. If the file exists, Ansible tries to
     # lookup the files attributes, but is stopped by Apparmor.

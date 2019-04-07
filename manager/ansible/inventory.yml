@@ -4,7 +4,7 @@ all:
   vars:
     ansible_python_interpreter: /usr/bin/python3
   children:
-    manager:
+    managers:
       hosts:
         localhost:
           ansible_connection: local
