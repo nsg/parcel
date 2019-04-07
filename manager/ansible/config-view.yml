@@ -11,9 +11,11 @@
       file:
         path: "{{ lookup('env','SNAP_DATA') }}/config-view"
         state: absent
+      changed_when: no
 
     - name: Write config view file
       template:
         src: templates/config-view.j2
         dest: "{{ lookup('env','SNAP_DATA') }}/config-view"
         force: yes
+      changed_when: no

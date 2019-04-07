@@ -6,6 +6,7 @@
   handlers:
     - name: restart haproxy
       shell: snapctl restart mailserver.haproxy
+      changed_when: no
 
   tasks:
 
@@ -17,10 +18,12 @@
       file:
         path: "{{ lookup('env','SNAP_DATA') }}/haproxy.cfg"
         state: absent
+      changed_when: no
 
     - name: Update haproxy.cfg file
       template:
         src: templates/haproxy.cfg.j2
         dest: "{{ lookup('env','SNAP_DATA') }}/haproxy.cfg"
         force: yes
+      changed_when: no
       notify: restart haproxy
