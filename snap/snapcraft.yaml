@@ -19,6 +19,7 @@ apps:
       LXD_DIR: /var/snap/lxd/common/lxd
       ANSIBLE_LOCAL_TEMP: /tmp
       ANSIBLE_REMOTE_TMP: /tmp
+      ANSIBLE_FORCE_COLOR: "true"
     plugs:
       - network
       - lxd
