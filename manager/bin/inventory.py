@@ -7,6 +7,7 @@ import subprocess
 
 CONF_VALUES = [
         ("domains", []),
+        ("dkim_domains", []),
         ("postfix_domain", False),
         ("postfix_origin", False),
         ("postfix_relay_host", False),

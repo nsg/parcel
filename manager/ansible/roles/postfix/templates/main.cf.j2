@@ -118,8 +118,8 @@ anvil_rate_time_unit = 60
 # Accept mail if there is an error
 milter_default_action = accept
 
-smtpd_milters = inet:localhost:12301
-non_smtpd_milters = inet:localhost:12301
+smtpd_milters = inet:{{ hostvars['opendkim']['ansible_default_ipv4']['address'] }}:12301
+non_smtpd_milters = inet:{{ hostvars['opendkim']['ansible_default_ipv4']['address'] }}:12301
 
 ############################################################
 # Stacken VIRTUAL, this is used to manage users,           #

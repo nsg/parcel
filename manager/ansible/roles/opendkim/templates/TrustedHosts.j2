@@ -1,0 +1,9 @@
+127.0.0.1
+localhost
+::1
+{% for tn in opendkim_trusted_networks %}
+{{ tn }}
+{% endfor %}
+{% for d in virtual_domains %}
+*.{{ d }}
+{% endfor %}

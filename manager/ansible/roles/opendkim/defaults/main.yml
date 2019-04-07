@@ -1,0 +1,4 @@
+---
+
+virtual_domains: "{{ dkim_domains }}"
+opendkim_trusted_networks: []

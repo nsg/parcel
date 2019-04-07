@@ -20,6 +20,11 @@
         timeout: 600
       loop: "{{ groups['containers'] }}"
 
+- name: Setup OpenDKIM container
+  hosts: opendkim
+  roles:
+    - opendkim
+
 - name: Setup Postfix container
   hosts: postfix
   pre_tasks:

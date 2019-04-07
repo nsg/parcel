@@ -1,0 +1,58 @@
+---
+
+- name: Install applications
+  apt:
+    name: "{{ item }}"
+  loop:
+    - opendkim
+    - opendkim-tools
+
+- name: Make directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - /etc/opendkim
+    - /etc/opendkim/keys
+
+- name: Deploy config
+  template:
+    src: "{{ item.tmpl }}"
+    dest: "{{ item.path }}"
+  loop:
+    - tmpl: opendkim.conf.j2
+      path: /etc/opendkim.conf
+    - tmpl: default.j2
+      path: /etc/default/opendkim
+    - tmpl: TrustedHosts.j2
+      path: /etc/opendkim/TrustedHosts
+    - tmpl: KeyTable.j2
+      path: /etc/opendkim/KeyTable
+    - tmpl: SigningTable.j2
+      path: /etc/opendkim/SigningTable
+  notify: reload opendkim
+
+- name: Make directories for domain keys
+  file:
+    path: "/etc/opendkim/keys/{{ item }}"
+    state: directory
+  loop: "{{ virtual_domains }}"
+  when: item.opendkim
+
+- name: Make public and private keys on server marked as opendkim_keys_primary
+  shell: "opendkim-genkey -s mail -d {{ item }}"
+  args:
+    chdir: /etc/opendkim/keys/{{ item }}
+    creates: /etc/opendkim/keys/{{ item }}/mail.private
+  loop: "{{ virtual_domains }}"
+  when: opendkim_keys_primary and item.opendkim
+  notify: reload opendkim
+
+- name: Fix perms on domain keys
+  file:
+    path: "/etc/opendkim/keys/{{ item }}/mail.private"
+    owner: opendkim
+    group: opendkim
+    mode: 0600
+  loop: "{{ virtual_domains }}"
+  when: item.opendkim
