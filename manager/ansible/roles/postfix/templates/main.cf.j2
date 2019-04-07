@@ -79,7 +79,7 @@ smtpd_tls_protocols = !SSLv2, !SSLv3
 
 # Specify dovecot and more security
 smtpd_sasl_type = dovecot
-smtpd_sasl_path = private/auth
+smtpd_sasl_path = inet:{{ hostvars['dovecot']['ansible_default_ipv4']['address'] }}:42000
 smtpd_sasl_auth_enable = yes
 
 # Restrictions
@@ -136,6 +136,6 @@ virtual_mailbox_domains =
 virtual_mailbox_base = /var/mail/vhosts
 virtual_mailbox_maps = hash:/etc/postfix/virtual_mailbox_maps
 virtual_alias_maps = hash:/etc/postfix/virtual_alias_maps
-virtual_transport = lmtp:unix:private/dovecot-lmtp
+virtual_transport = lmtp:inet:{{ hostvars['dovecot']['ansible_default_ipv4']['address'] }}:24
 
 smtpd_upstream_proxy_protocol = haproxy

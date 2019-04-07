@@ -1,4 +1,4 @@
-# vim: syntax=conf
+# vim: syntax=conf expandtab sw=2
 
 # Protocols to use
 protocols = imap lmtp sieve
@@ -54,19 +54,17 @@ service imap-login {
 
 # Setup lmtp for postfix
 service lmtp {
-   unix_listener /var/spool/postfix/private/dovecot-lmtp {
-     mode = 0600
-     user = postfix
-     group = postfix
-   }
+  inet_listener lmtp {
+    address = {{ ansible_default_ipv4.address }} 127.0.0.1 ::1
+    port = 24
+    user = dovecot
+    group = dovecot
 }
 
 # Setup auth service
 service auth {
-  unix_listener /var/spool/postfix/private/auth {
-    mode = 0660
-    user = postfix
-    group = postfix
+  inet_listener {
+    port = 42000
   }
   unix_listener auth-userdb {
     mode = 0600
