@@ -43,6 +43,9 @@ apps:
   mailserver:
     command: cat $SNAP_DATA/config-view
 
+  provision-logs:
+    command: cat $SNAP_DATA/provision.log
+
 parts:
   snapcraft-preload:
     # Ansible uses python multiprocessing and semaphores in /dev/shm

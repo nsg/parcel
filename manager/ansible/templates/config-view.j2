@@ -30,5 +30,5 @@ use-snakeoil-cert  = {{ use_snakeoil_cert }}
 haproxy_username   = {{ haproxy_username }}
 haproxy_password   = {{ haproxy_password }}
 
-Servers last updated at {{ lookup('pipe', "date '+%Y-%m-%d %H-%M-%S'") }}
-For provision logs see {{ lookup('env', 'SNAP_DATA') }}/provision.log
+Servers last updated at {{ lookup('pipe', "date '+%Y-%m-%d %H:%M:%S'") }}
+For provision logs run "mailserver.provision-logs"
