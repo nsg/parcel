@@ -1,0 +1,4 @@
+---
+
+smtpd_tls_cert_file: no
+smtpd_tls_key_file: no

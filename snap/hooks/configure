@@ -1,2 +1,6 @@
 #!/bin/bash
 
+if [ ! -e $SNAP_DATA/tls-snakeoil-key ]; then
+	echo -en "---\n\nsnakeoil_private_password: " > $SNAP_DATA/tls-snakeoil-key
+	tr -cd '[:alnum:]' < /dev/urandom | fold -w128 | head -n1 >> $SNAP_DATA/tls-snakeoil-key
+fi

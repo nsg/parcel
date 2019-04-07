@@ -25,10 +25,6 @@ disable_plaintext_auth = yes
 # Allow plain unencrypted messages inside the SSL tunnel.
 auth_mechanisms = plain login
 
-# Setup for HAproxy proxy traffic, in the future make this more secure.
-haproxy_trusted_networks = 0.0.0.0/0
-haproxy_timeout = 3
-
 {% if dovecot_tls_cert_file and dovecot_tls_key_file %}
 # Setup SSL
 ssl = required
@@ -61,8 +57,9 @@ service lmtp {
   inet_listener lmtp {
     address = {{ ansible_default_ipv4.address }} 127.0.0.1 ::1
     port = 24
-    user = dovecot
-    group = dovecot
+  }
+  user = dovecot
+  group = dovecot
 }
 
 # Setup auth service

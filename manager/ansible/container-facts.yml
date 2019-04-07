@@ -1,0 +1,7 @@
+---
+
+- name: Collects facts from containers
+  setup:
+  delegate_to: "{{ item }}"
+  delegate_facts: yes
+  loop: "{{ groups['containers'] }}"

@@ -9,3 +9,8 @@ listen stats
   stats auth admin:password
   stats uri /
 EOF
+
+echo "
+Please give the system a minute to run and check back again.
+For logs see $SNAP_DATA/provision.log
+" > $SNAP_DATA/config-view

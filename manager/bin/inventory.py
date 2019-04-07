@@ -10,6 +10,9 @@ CONF_VALUES = [
         ("postfix_domain", False),
         ("postfix_origin", False),
         ("postfix_relay_host", False),
+        ("use_snakeoil_cert", True),
+        ("haproxy_username", "admin"),
+        ("haproxy_password", "password")
     ]
 
 def get_conf(param, default):
@@ -25,10 +28,17 @@ def get_conf(param, default):
         return ret[0]
     return default
 
+def noyes(s):
+    if s in ["no", "false", "False"]:
+        return False
+    if s in ["yes", "true", "True"]:
+        return True
+    return s
+
 def get_inventory_vars():
     out = {}
     for v,dv in CONF_VALUES:
-        out[v] = get_conf(v, dv)
+        out[v] = noyes(get_conf(v, dv))
     return out
 
 def main(argv):

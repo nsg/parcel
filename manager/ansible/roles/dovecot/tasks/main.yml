@@ -1,5 +1,11 @@
 ---
 
+- include_vars: snakeoil.yml
+  when: use_snakeoil_cert
+
+- include_vars: realcert.yml
+  when: not use_snakeoil_cert
+
 - name: Install Dovecot
   apt:
     name: "{{ item }}"

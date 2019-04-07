@@ -1,0 +1,7 @@
+---
+
+use_snakeoil_cert: False
+#snakeoil_private_password:
+snakeoil_private_cert_key: /etc/ssl/private/{{ ansible_fqdn }}_snakeoil.key
+snakeoil_cert_file: /etc/ssl/certs/{{ ansible_fqdn }}_snakeoil.pem
+snakeoil_cert_subj: /C=SE/ST=Snake/L=Internet/O=Self Sign/OU=Self/CN={{ ansible_fqdn }}

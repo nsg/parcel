@@ -1,0 +1,19 @@
+---
+
+- block:
+  - name: Check for cert
+    stat: path={{ snakeoil_private_cert_key }}
+    register: has_mail_cert
+
+  - name: Generate private snakeoil key
+    command: openssl genrsa -des3 -passout pass:{{ snakeoil_private_password }} -out {{ snakeoil_private_cert_key }} 2048
+    when: has_mail_cert.stat.exists == False
+
+  - name: Check for cert
+    stat: path={{ snakeoil_cert_file }}
+    register: has_mail_cert
+
+  - name: Generate snakoil cert
+    command: openssl req -x509 -nodes -days 365 -newkey rsa:2048 -passin pass:{{ snakeoil_private_password }} -keyout {{ snakeoil_private_cert_key }} -out {{ snakeoil_cert_file }} -subj "{{ snakeoil_cert_subj }}"
+    when: has_mail_cert.stat.exists == False
+  when: use_snakeoil_cert

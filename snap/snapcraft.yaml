@@ -12,19 +12,9 @@ grade: devel
 confinement: strict
 
 apps:
-  shell:
-    command: bin/snapcraft-preload /bin/bash
-    environment:
-      LXD_DIR: /var/snap/lxd/common/lxd
-      ANSIBLE_LOCAL_TEMP: /tmp
-      ANSIBLE_REMOTE_TMP: /tmp
-    plugs:
-      - network
-      - network-bind
-      - lxd
-
-  install:
-    command: bin/snapcraft-preload ansible-playbook -i $SNAP/ansible/inventory.yml -i $SNAP/bin/inventory.py $SNAP/ansible/site.yml --diff
+  service:
+    command: bin/service
+    daemon: simple
     environment:
       LXD_DIR: /var/snap/lxd/common/lxd
       ANSIBLE_LOCAL_TEMP: /tmp

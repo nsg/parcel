@@ -1,0 +1,4 @@
+---
+
+dovecot_tls_cert_file: "{{ snakeoil_cert_file }}"
+dovecot_tls_key_file: "{{ snakeoil_private_cert_key }}"

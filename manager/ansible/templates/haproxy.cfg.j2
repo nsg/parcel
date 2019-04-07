@@ -6,23 +6,24 @@ defaults
     timeout connect 10s
     timeout client 30s
     timeout server 30s
-    mode http
+    mode tcp
 
 listen smtp
   bind *:25
-  mode tcp
   option smtpchk HELO {{ postfix_domain }}
   server postfix {{ hostvars['postfix']['ansible_default_ipv4']['address'] }}:25 send-proxy check
 
-listen imaps
+listen smtp-tls
+  bind *:587
+  option smtpchk HELO {{ postfix_domain }}
+  server postfix {{ hostvars['postfix']['ansible_default_ipv4']['address'] }}:587 send-proxy check
+
+listen imap-tls
   bind *:993
-  balance leastconn
   option tcp-check
   tcp-check connect port 993 ssl
   tcp-check expect string * OK
-  stick store-request src
-  stick-table type ip size 200k expire 30m
-  server dovecot {{ hostvars['postfix']['ansible_default_ipv4']['address'] }}:993 send-proxy-v2 check verify none
+  server dovecot {{ hostvars['dovecot']['ansible_default_ipv4']['address'] }}:993 check verify none
 
 listen sieve
   bind *:4190
@@ -31,8 +32,9 @@ listen sieve
 
 listen stats
   bind *:8080
+  mode http
   stats enable
   stats hide-version
-  stats auth admin:password
+  stats auth {{ haproxy_username }}:{{ haproxy_password }}
   stats uri /
 

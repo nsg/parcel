@@ -1,0 +1,13 @@
+#!/bin/bash
+
+while [ 1 ]; do
+  $SNAP/bin/snapcraft-preload \
+    ansible-playbook \
+      -i $SNAP/ansible/inventory.yml \
+      -i $SNAP/bin/inventory.py \
+      --extra-vars @$SNAP_DATA/tls-snakeoil-key \
+      $SNAP/ansible/site.yml --diff \
+        2>&1 > $SNAP_DATA/provision.log
+
+  sleep 3600
+done
