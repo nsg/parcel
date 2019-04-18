@@ -42,7 +42,7 @@ apps:
       - network-bind
 
   mailserver:
-    command: cat $SNAP_DATA/config-view
+    command: bin/mailservercmd
 
   provision-logs:
     command: cat $SNAP_DATA/provision.log

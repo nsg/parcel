@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cat $SNAP_DATA/config-view
