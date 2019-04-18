@@ -37,15 +37,13 @@
     path: "/etc/opendkim/keys/{{ item }}"
     state: directory
   loop: "{{ virtual_domains }}"
-  when: item.opendkim
 
-- name: Make public and private keys on server marked as opendkim_keys_primary
+- name: Make public and private keys on server
   shell: "opendkim-genkey -s mail -d {{ item }}"
   args:
     chdir: /etc/opendkim/keys/{{ item }}
     creates: /etc/opendkim/keys/{{ item }}/mail.private
   loop: "{{ virtual_domains }}"
-  when: opendkim_keys_primary and item.opendkim
   notify: reload opendkim
 
 - name: Fix perms on domain keys
@@ -55,4 +53,3 @@
     group: opendkim
     mode: 0600
   loop: "{{ virtual_domains }}"
-  when: item.opendkim
