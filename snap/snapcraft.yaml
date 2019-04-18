@@ -47,6 +47,9 @@ apps:
   provision-logs:
     command: cat $SNAP_DATA/provision.log
 
+  trigger-provision:
+    command: touch $SNAP_DATA/do-provision
+
 parts:
   snapcraft-preload:
     # Ansible uses python multiprocessing and semaphores in /dev/shm

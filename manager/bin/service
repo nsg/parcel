@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while [ 1 ]; do
+do_provision() {
   $SNAP/bin/snapcraft-preload \
     ansible-playbook \
       -i $SNAP/ansible/inventory.yml \
@@ -9,5 +9,22 @@ while [ 1 ]; do
       $SNAP/ansible/site.yml --diff \
         2>&1 > $SNAP_DATA/provision.log
 
-  sleep 3600
+  echo -e "\nLog written at $(date)" >> $SNAP_DATA/provision.log
+}
+
+N=0
+while [ 1 ]; do
+  if [ -e $SNAP_DATA/do-provision ]; then
+    if do_provision; then
+      rm $SNAP_DATA/do-provision
+    fi
+  fi
+
+  # Once every hour
+  if [[ "$(( $N % 60 ))" == "0" ]]; then
+    do_provision
+  fi
+
+  sleep 10
+  N=$(( $N + 1 ))
 done
