@@ -40,4 +40,3 @@
     - dovecot
 
 - import_playbook: haproxy.yml
-- import_playbook: config-view.yml

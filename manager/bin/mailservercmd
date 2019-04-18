@@ -1,3 +1,54 @@
 #!/bin/bash
 
-cat $SNAP_DATA/config-view
+DOMAINS="$(snapctl get domains)"
+POSTFIX_DOMAIN="$(snapctl get postfix-domain)"
+POSTFIX_ORIGIN="$(snapctl get postfix-origin)"
+POSTFIX_RELAY_HOST="$(snapctl get postfix-relay-host)"
+USE_SNAKEOIL_CERT="$(snapctl get use-snakeoil-cert)"
+HAPROXY_USERNAME="$(snapctl get haproxy-username)"
+HAPROXY_PASSWORD="$(snapctl get haproxy-password)"
+
+if [ -z $DOMAINS ]; then
+echo "
+                      Domains
+########################################################
+You need to configure at least one domain. This is the
+domain or domains that this server manages email for.
+
+For example:
+$ sudo snap set mailserver domains=example.com
+$ sudo snap set mailserver domains=example.com,example.net
+"
+elif [ -z $POSTFIX_DOMAIN ] || [ -z $POSTFIX_ORIGIN ]; then
+echo "
+                  Postfix domains
+########################################################
+You need to set postfix-domain and postfix-origin. This
+is most likely one of $DOMAINS or $(hostname -f).
+
+For example:
+$ sudo snap set mailserver postfix-domain=example.com
+$ sudo snap set mailserver postfix-origin=example.com
+"
+fi
+
+echo "
+             Applied configuration values
+########################################################
+domains            = $DOMAINS
+postfix-domain     = $POSTFIX_DOMAIN
+postfix-origin     = $POSTFIX_ORIGIN
+postfix-relay-host = $POSTFIX_RELAY_HOST
+use-snakeoil-cert  = $USE_SNAKEOIL_CERT
+haproxy-username   = $HAPROXY_USERNAME
+haproxy-password   = $HAPROXY_PASSWORD
+"
+
+if pgrep ansible-playbook 2>&1 > /dev/null; then
+  echo "Provision is running, the above configuration values are applied."
+  echo "If this failes, please check run \"mailserver.provision-logs\" and"
+  echo "check for errors."
+else
+  echo "Servers last updated at $(stat --format=%y $SNAP_DATA/provision.log)"
+  echo "For provision logs run \"mailserver.provision-logs\""
+fi

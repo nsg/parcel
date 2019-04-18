@@ -43,6 +43,8 @@ apps:
 
   mailserver:
     command: bin/mailservercmd
+    plugs:
+      - network
 
   provision-logs:
     command: cat $SNAP_DATA/provision.log
