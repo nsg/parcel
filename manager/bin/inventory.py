@@ -24,7 +24,7 @@ def get_conf(param, default):
         return default
     if out.strip():
         ret = out.strip().split(",")
-        if len(ret) > 1:
+        if len(ret) > 1 or isinstance(default) == list:
             return ret
         return ret[0]
     return default
