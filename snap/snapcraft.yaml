@@ -41,6 +41,12 @@ apps:
       - network
       - network-bind
 
+  www:
+    command: bin/www
+    plugs:
+      - network
+      - network-bind
+
   mailserver:
     command: bin/mailservercmd
     plugs:
@@ -75,6 +81,12 @@ parts:
   manager:
     plugin: dump
     source: manager
+
+  www:
+    plugin: python
+    source: www
+    python-packages:
+      - responder
 
   ansible:
     plugin: python
