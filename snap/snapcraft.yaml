@@ -86,7 +86,8 @@ parts:
     plugin: python
     source: www
     python-packages:
-      - responder
+      # bug: https://github.com/kennethreitz/responder/issues/337
+      - git+https://github.com/kennethreitz/responder
 
   ansible:
     plugin: python

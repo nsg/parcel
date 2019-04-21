@@ -8,9 +8,11 @@ api = responder.API(
     templates_dir="{}/templates".format(ROOT),
 )
 
-@api.route("/{greeting}")
-async def greet_world(req, resp, *, greeting):
-    resp.text = f"{greeting}, world!"
+api.add_route("/static/", static=True)
+
+@api.route("/")
+async def index(req, resp):
+    resp.html = api.template('index.html')
 
 def main():
     api.run()
