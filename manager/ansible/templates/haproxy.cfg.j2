@@ -30,11 +30,18 @@ listen sieve
   option tcp-check
   server sieve {{ hostvars['dovecot']['ansible_default_ipv4']['address'] }}:4190 check
 
-listen stats
+frontend www
   bind *:8080
   mode http
+
+  use_backend stats if { path -i -m beg /stats/ }
+  default_backend www
+
+backend stats
   stats enable
   stats hide-version
   stats auth {{ haproxy_username }}:{{ haproxy_password }}
-  stats uri /
+  stats uri /stats/
 
+backend www
+  server www 127.0.0.1:5042 check

@@ -4,8 +4,5 @@ cat <<EOF > $SNAP_DATA/haproxy.cfg
 listen stats
   bind *:8080
   mode http
-  stats enable
-  stats hide-version
-  stats auth admin:password
-  stats uri /
+  server www 127.0.0.1:5042 check
 EOF
