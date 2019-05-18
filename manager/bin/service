@@ -1,5 +1,10 @@
 #!/bin/bash
 
+filter_output() {
+    # Filter out Pushing ... to ...
+    cat - | sed 's/^.*Pushing[^{]*//'
+}
+
 do_provision() {
   $SNAP/bin/snapcraft-preload \
     ansible-playbook \
@@ -7,9 +12,8 @@ do_provision() {
       -i $SNAP/bin/inventory.py \
       --extra-vars @$SNAP_DATA/tls-snakeoil-key \
       $SNAP/ansible/site.yml --diff \
-        2>&1 > $SNAP_DATA/provision.log
-
-  echo -e "\nLog written at $(date)" >> $SNAP_DATA/provision.log
+        2> $SNAP_DATA/provision.err \
+        | filter_output > $SNAP_DATA/provision.log
 }
 
 N=0

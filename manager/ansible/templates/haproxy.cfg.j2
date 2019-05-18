@@ -38,10 +38,12 @@ frontend www
   default_backend www
 
 backend stats
+  mode http
   stats enable
   stats hide-version
   stats auth {{ haproxy_username }}:{{ haproxy_password }}
   stats uri /stats/
 
 backend www
+  mode http
   server www 127.0.0.1:5042 check
