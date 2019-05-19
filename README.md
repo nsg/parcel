@@ -1,4 +1,5 @@
 # Mailserver
+[![Snap Status](https://build.snapcraft.io/badge/nsg/snap-mailserver.svg)](https://build.snapcraft.io/user/nsg/snap-mailserver)
 
 ## About this snap
 
