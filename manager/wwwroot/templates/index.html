@@ -40,11 +40,11 @@
         </div>
       </div>
       <div class="row">
-        <div class="col border-right border-secondary">
+        <div class="col-sm border-right border-secondary">
           <h2>How it works</h2>
           <p>
-            This snap contains <a href="https://haproxy.org">HAproxy</a> that is used to control
-            traffic, this administrative interface and several
+            This snap contains the reverse proxy <a href="https://haproxy.org">HAProxy</a>
+            that is used to control traffic, this administrative interface and several
             <a href="https://ansible.com">Ansible</a> playbooks that provisions the actual mail
             servers. All the source code can be found over at <a href="/">GitHub</a>.
           </p>
@@ -53,7 +53,7 @@
             create several system containers, these containers will then be used to setup
             all bits and pieces needed to run your mail server.
           </p>
-          <h4>Why not bundle everything inside the snap?</h4>
+          <h5>Why not bundle everything inside the snap?</h5>
           <p>
             I started with that idea but it soon got really complicated, most popular mail
             software has been around quite some time and does not play nice inside a confined
@@ -61,7 +61,7 @@
             simpler and cleaner to just use LXD containers.
           </p>
         </div>
-        <div class="col">
+        <div class="col-sm">
           <h2>What do I need?</h2>
           <p>
             <strong>A server open to the public</strong>,
@@ -89,7 +89,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col border-right border-secondary">
+        <div class="col-sm border-right border-secondary">
           <h2>What this is not</h2>
           <p>
             This is never intended to be a complete groupware solution, but I may later on
@@ -99,14 +99,17 @@
             nice together with e-mail.
           </p>
         </div>
-        <div class="col">
-          <h2>What this is not</h2>
+        <div class="col-sm">
+          <h2>What this is</h2>
           <p>
-            This is never intended to be a complete groupware solution, but I may later on
-            add integrations with <a href="https://nextcloud.com">Nextcloud</a> with is also
-            <a href="https://snapcraft.io/nextcloud">available as a snap</a>. Nextcloud
-            offers plenty of nice things, but it's calender and contacts options fits really
-            nice together with e-mail.
+            It's based around <a href="http://www.postfix.org/">Postfix</a> and
+            <a href="https://www.dovecot.org/">Dovecot</a> and plenty of
+            bits and pieces like <a href="http://opendkim.org/">OpenDKIM</a>
+            and <a href="https://haproxy.org">HAProxy</a>.
+          </p>
+          <p>
+            Most magic happens in the Ansible playbooks and the python scripts that
+            powers this site. Together they do all the needed magic.
           </p>
         </div>
       </div>
