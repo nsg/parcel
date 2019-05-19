@@ -10,10 +10,111 @@
   </head>
   <body class="bg-light">
     <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Mailserver</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="/">Welcome</a>
+            <a class="nav-item nav-link" href="/status/">Status</a>
+            <a class="nav-item nav-link" href="/configure/">Configure</a>
+            <a class="nav-item nav-link" href="/provision/">Provision</a>
+            <a class="nav-item nav-link" href="/about/">About</a>
+          </div>
+        </div>
+      </nav>
       <div class="row">
         <div class="col">
-          <h1>Management UI for Mailserver Snap</h1>
+          <h1 style="text-align: center; margin-top: 1em">Management UI for Mailserver Snap</h1>
         </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <p class="lead text-justify">
+            Welcome to your Mail Server, I will try to make this as easy as possible but there
+            is a lot of moving parts in E-mail. If you are stuck feel free to
+            <a href="/">open an issue</a> over at GitHub and ask for help.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col border-right border-secondary">
+          <h2>How it works</h2>
+          <p>
+            This snap contains <a href="https://haproxy.org">HAproxy</a> that is used to control
+            traffic, this administrative interface and several
+            <a href="https://ansible.com">Ansible</a> playbooks that provisions the actual mail
+            servers. All the source code can be found over at <a href="/">GitHub</a>.
+          </p>
+          <p>
+            This snap will then use the <a href="https://snapcraft.io/lxd">LXD snap</a> to
+            create several system containers, these containers will then be used to setup
+            all bits and pieces needed to run your mail server.
+          </p>
+          <h4>Why not bundle everything inside the snap?</h4>
+          <p>
+            I started with that idea but it soon got really complicated, most popular mail
+            software has been around quite some time and does not play nice inside a confined
+            environment as a snap package. I finally realized that it would be considerably
+            simpler and cleaner to just use LXD containers.
+          </p>
+        </div>
+        <div class="col">
+          <h2>What do I need?</h2>
+          <p>
+            <strong>A server open to the public</strong>,
+            try to avoid home servers because many internet
+            service providers (ISP) intended for home use is blacklisted by the big e-mail
+            providers in an effort to try to prevent spam. It is also likely that port 25
+            is blocked by your ISP for the same reason. A remote smarthost is a work around
+            for this.
+          </p>
+          <p>
+            <strong>A Linux server</strong> that supports, and can use the LXD snap, unless
+            you have a custom setup this should not be a problem. If you have no preferences
+            I recommend to pick the latest <a href="https://www.ubuntu.com">Ubuntu LTS</a>.
+          </p>
+          <p>
+            <strong>A domain name</strong> (or subdomain) that you can update the records on.
+            This assumes some basic DNS knowledge, but to make things easy this site contains
+            all information you need to set everything up.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <br>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col border-right border-secondary">
+          <h2>What this is not</h2>
+          <p>
+            This is never intended to be a complete groupware solution, but I may later on
+            add integrations with <a href="https://nextcloud.com">Nextcloud</a> with is also
+            <a href="https://snapcraft.io/nextcloud">available as a snap</a>. Nextcloud
+            offers plenty of nice things, but it's calender and contacts options fits really
+            nice together with e-mail.
+          </p>
+        </div>
+        <div class="col">
+          <h2>What this is not</h2>
+          <p>
+            This is never intended to be a complete groupware solution, but I may later on
+            add integrations with <a href="https://nextcloud.com">Nextcloud</a> with is also
+            <a href="https://snapcraft.io/nextcloud">available as a snap</a>. Nextcloud
+            offers plenty of nice things, but it's calender and contacts options fits really
+            nice together with e-mail.
+          </p>
+        </div>
+      </div>
+      <div class="fixed-bottom text-center">
+        <small>
+          Feel free to contact me at <a href="/">GitHub</a> if you need help, or have
+          suggestions.
+        </small>
       </div>
     </div>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
