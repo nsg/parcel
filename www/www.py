@@ -32,6 +32,10 @@ def set_config(key, val):
 async def index(req, resp):
     resp.html = api.template('index.html')
 
+@api.route("/{page}")
+async def index(req, resp, *, page):
+    resp.html = api.template("{}.html".format(page))
+
 @api.route("/api/config")
 async def config(req, resp):
 
