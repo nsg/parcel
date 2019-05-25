@@ -7,6 +7,11 @@ import json
 ROOT = "{}/wwwroot".format(os.environ['SNAP'])
 DATA = os.environ['SNAP_DATA']
 
+MENU = [
+    {"name": "Welcome", "url": "/", "id": "index"},
+    {"name": "Provision", "url": "/provision/", "id": "provision"},
+]
+
 api = responder.API(
     static_dir="{}/static".format(ROOT),
     templates_dir="{}/templates".format(ROOT),
@@ -30,11 +35,17 @@ def set_config(key, val):
 
 @api.route("/")
 async def index(req, resp):
-    resp.html = api.template('index.html')
+    resp.html = api.template('index.html', menu=MENU, current="/", page="index")
 
 @api.route("/{page}")
 async def index(req, resp, *, page):
-    resp.html = api.template("{}.html".format(page.replace("/", "")))
+    norm_page = page.replace("/", "")
+    resp.html = api.template(
+        "{}.html".format(norm_page),
+        menu=MENU,
+        current="/{}/".format(norm_page),
+        page=norm_page
+    )
 
 @api.route("/api/config")
 async def config(req, resp):
