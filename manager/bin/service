@@ -13,7 +13,8 @@ do_provision() {
       --extra-vars @$SNAP_DATA/tls-snakeoil-key \
       $SNAP/ansible/site.yml --diff \
         2> $SNAP_DATA/provision.err \
-        | filter_output > $SNAP_DATA/provision.log
+        | filter_output > $SNAP_DATA/provision.tmp
+  mv $SNAP_DATA/provision.tmp $SNAP_DATA/provision.log
 }
 
 N=0
