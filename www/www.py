@@ -34,7 +34,7 @@ async def index(req, resp):
 
 @api.route("/{page}")
 async def index(req, resp, *, page):
-    resp.html = api.template("{}.html".format(page))
+    resp.html = api.template("{}.html".format(page.replace("/", "")))
 
 @api.route("/api/config")
 async def config(req, resp):
