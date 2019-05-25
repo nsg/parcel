@@ -56,7 +56,19 @@
           </p>
         </div>
       </div>
+      <div class="row">
+        <div class="col-sm border-right border-secondary">
+          <h3>Provision status</h3>
+          <p id="ansible"></p>
+          <div class="alert alert-primary" role="alert" id="ansible-messages"></div>
+          <div id="ansible-log"></div>
+        </div>
+        <div class="col-sm">
+          <button type="button" class="btn btn-sm btn-dark" onclick="trigger()">Trigger provision</button>
+        </div>
+      </div>
     </div>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/bootstrap.js"></script>
   </body>
 </html>

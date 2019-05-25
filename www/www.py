@@ -78,7 +78,12 @@ async def ansible(req, resp):
             json_data = json.loads(data)
         except:
             json_data = {}
-        resp.media = {"data": json_data}
+
+        running = pathlib.Path("{}/do-provision".format(DATA)).exists()
+        resp.media = {
+            "data": json_data,
+            "running": running
+        }
     elif req.method == "post":
         pathlib.Path("{}/do-provision".format(DATA)).touch(exist_ok=True)
         resp.media = {"success": True}
