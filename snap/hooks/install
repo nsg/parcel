@@ -6,3 +6,6 @@ listen stats
   mode http
   server www 127.0.0.1:5042 check
 EOF
+
+# Make sure we have a empty logfile on a clean install
+touch $SNAP_DATA/provision.log
