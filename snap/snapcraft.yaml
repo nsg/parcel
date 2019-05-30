@@ -76,6 +76,8 @@ parts:
       - on amd64:
         - gcc-multilib
         - g++-multilib
+    stage-packages:
+      - lib32stdc++6
 
   shell:
     plugin: nil
@@ -101,6 +103,7 @@ parts:
       - ansible==2.7.9
     stage-packages:
       - lxd
+      - libatm1
 
   haproxy:
     plugin: nil
