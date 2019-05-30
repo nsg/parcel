@@ -37,10 +37,17 @@ api.add_route("/static/", static=True)
 
 @api.route("/")
 async def index(req, resp):
-    resp.html = api.template('index.html', menu=MENU, current="/", page="index")
+    if req.headers.get('TOKEN') == SECRET_TOKEN:
+        resp.html = api.template('index.html', menu=MENU, current="/", page="index")
+    else:
+        resp.text = "Error: You need to provide a correct TOKEN"
 
 @api.route("/{page}")
-async def index(req, resp, *, page):
+async def page(req, resp, *, page):
+    if req.headers.get('TOKEN') != SECRET_TOKEN:
+        resp.text = "Error: You need to provide a correct TOKEN"
+        return
+
     norm_page = page.replace("/", "")
     resp.html = api.template(
         "{}.html".format(norm_page),
@@ -51,6 +58,9 @@ async def index(req, resp, *, page):
 
 @api.route("/api/config")
 async def config(req, resp):
+    if req.headers.get('TOKEN') != SECRET_TOKEN:
+        resp.media = {"message": "Error: You need to provide a correct TOKEN"}
+        return
 
     if req.method == "get":
         values = [
@@ -84,6 +94,10 @@ async def config(req, resp):
 
 @api.route("/api/ansible")
 async def ansible(req, resp):
+    if req.headers.get('TOKEN') != SECRET_TOKEN:
+        resp.media = {"message": "Error: You need to provide a correct TOKEN"}
+        return
+
     if req.method == "get":
         with open("{}/provision.log".format(DATA)) as f:
             data = f.read()

@@ -41,6 +41,7 @@ frontend www
   bind *:8080
   mode http
 
+  http-request add-header TOKEN {{ token.stdout }}
   http-request auth realm mailserver unless { http_auth(admin_users) }
   use_backend stats if { path -i -m beg /stats/ }
   default_backend www
