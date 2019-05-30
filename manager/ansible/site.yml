@@ -6,11 +6,22 @@
   hosts: localhost
   gather_facts: no
   tasks:
+    - name: Get list of LXD remotes
+      command: snapctl get lxd-remotes
+      register: remotes
+      changed_when: no
+
+    - set_fact:
+        lxd_remotes: "{{ remotes.stdout | from_json }}"
+
     - name: Create containers
       lxd_container:
         name: "{{ item }}"
         state: started
-        url: unix:/var/snap/lxd/common/lxd/unix.socket
+        #url: unix:/var/snap/lxd/common/lxd/unix.socket
+        snap_url: None # This is needed, bug!
+        url: "https://{{ lxd_remotes[0].url }}"
+        trust_password: "{{ lxd_remotes[0].password }}"
         source:
           type: image
           mode: pull
