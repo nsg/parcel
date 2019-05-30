@@ -85,6 +85,8 @@ parts:
   manager:
     plugin: dump
     source: manager
+    stage-packages:
+      - curl
 
   www:
     plugin: python

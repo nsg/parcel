@@ -9,6 +9,7 @@ DATA = os.environ['SNAP_DATA']
 
 MENU = [
     {"name": "Welcome", "url": "/", "id": "index"},
+    {"name": "Configure", "url": "/configure/", "id": "configure"},
     {"name": "Provision", "url": "/provision/", "id": "provision"},
 ]
 
