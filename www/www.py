@@ -49,12 +49,17 @@ async def page(req, resp, *, page):
         return
 
     norm_page = page.replace("/", "")
-    resp.html = api.template(
-        "{}.html".format(norm_page),
-        menu=MENU,
-        current="/{}/".format(norm_page),
-        page=norm_page
-    )
+    valid_pages = [x['id'] for x in MENU]
+    if norm_page in valid_pages:
+        resp.html = api.template(
+            "{}.html".format(norm_page),
+            menu=MENU,
+            current="/{}/".format(norm_page),
+            page=norm_page
+        )
+    else:
+        resp.text = "404: Page not found"
+        resp.status_code = 404
 
 @api.route("/api/config")
 async def config(req, resp):
