@@ -9,3 +9,5 @@ EOF
 
 # Make sure we have a empty logfile on a clean install
 touch $SNAP_DATA/provision.log
+
+snapctl set haproxy-password=$(< /dev/urandom tr -dc A-Z-a-z-0-9 | head -c12)
