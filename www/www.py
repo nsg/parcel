@@ -4,22 +4,6 @@ import pathlib
 import responder
 import json
 
-ROOT = "{}/wwwroot".format(os.environ['SNAP'])
-DATA = os.environ['SNAP_DATA']
-
-MENU = [
-    {"name": "Welcome", "url": "/", "id": "index"},
-    {"name": "Configure", "url": "/configure/", "id": "configure"},
-    {"name": "Provision", "url": "/provision/", "id": "provision"},
-]
-
-api = responder.API(
-    static_dir="{}/static".format(ROOT),
-    templates_dir="{}/templates".format(ROOT),
-)
-
-api.add_route("/static/", static=True)
-
 def get_config(val):
     stdout, stderr = subprocess.Popen(["snapctl", "get", val],
             stdout=subprocess.PIPE,
@@ -33,6 +17,23 @@ def set_config(key, val):
     if stderr:
         return False
     return True
+
+ROOT = "{}/wwwroot".format(os.environ['SNAP'])
+DATA = os.environ['SNAP_DATA']
+SECRET_TOKEN = get_config("www-token")
+
+MENU = [
+    {"name": "Welcome", "url": "/", "id": "index"},
+    {"name": "Configure", "url": "/configure/", "id": "configure"},
+    {"name": "Provision", "url": "/provision/", "id": "provision"},
+]
+
+api = responder.API(
+    static_dir="{}/static".format(ROOT),
+    templates_dir="{}/templates".format(ROOT),
+)
+
+api.add_route("/static/", static=True)
 
 @api.route("/")
 async def index(req, resp):

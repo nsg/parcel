@@ -11,6 +11,7 @@ defaults
 userlist admin_users
   user {{ haproxy_username }} insecure-password {{ haproxy_password }}
 
+{% if 'ansible_default_ipv4' in hostvars['postfix'] %}
 listen smtp
   bind *:25
   option smtpchk HELO {{ postfix_domain }}
@@ -20,7 +21,9 @@ listen smtp-tls
   bind *:587
   option smtpchk HELO {{ postfix_domain }}
   server postfix {{ hostvars['postfix']['ansible_default_ipv4']['address'] }}:587 send-proxy check
+{% endif %}
 
+{% if 'ansible_default_ipv4' in hostvars['dovecot'] %}
 listen imap-tls
   bind *:993
   option tcp-check
@@ -32,6 +35,7 @@ listen sieve
   bind *:4190
   option tcp-check
   server sieve {{ hostvars['dovecot']['ansible_default_ipv4']['address'] }}:4190 check
+{% endif %}
 
 frontend www
   bind *:8080

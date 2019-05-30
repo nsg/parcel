@@ -5,4 +5,3 @@
   delegate_to: "{{ item }}"
   delegate_facts: yes
   loop: "{{ groups['containers'] }}"
-  failed_when: False

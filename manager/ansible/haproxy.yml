@@ -3,14 +3,10 @@
 - name: Update haproxy config
   hosts: localhost
   gather_facts: no
-  handlers:
-    - name: restart haproxy
-      shell: snapctl restart mailserver.haproxy
-      changed_when: no
-
   tasks:
 
     - include_tasks: container-facts.yml
+      when: stage == 2
 
     # This is needed. If the file exists, Ansible tries to
     # lookup the files attributes, but is stopped by Apparmor.
@@ -26,4 +22,7 @@
         dest: "{{ lookup('env','SNAP_DATA') }}/haproxy.cfg"
         force: yes
       changed_when: no
-      notify: restart haproxy
+
+    - name: restart haproxy
+      shell: snapctl restart mailserver.haproxy
+      changed_when: no
