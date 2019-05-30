@@ -1,54 +1,27 @@
 #!/bin/bash
 
-DOMAINS="$(snapctl get domains)"
-POSTFIX_DOMAIN="$(snapctl get postfix-domain)"
-POSTFIX_ORIGIN="$(snapctl get postfix-origin)"
-POSTFIX_RELAY_HOST="$(snapctl get postfix-relay-host)"
-USE_SNAKEOIL_CERT="$(snapctl get use-snakeoil-cert)"
-HAPROXY_USERNAME="$(snapctl get haproxy-username)"
-HAPROXY_PASSWORD="$(snapctl get haproxy-password)"
+IPV4=$(curl -s 'https://api.ipify.org?format=text')
+IPV6=$(curl -s 'https://api6.ipify.org?format=text')
 
-if [ -z $DOMAINS ]; then
-echo "
-                      Domains
-########################################################
-You need to configure at least one domain. This is the
-domain or domains that this server manages email for.
+USERNAME="$(snapctl get haproxy-username)"
+PASSWORD="$(snapctl get haproxy-password)"
 
-For example:
-$ sudo snap set mailserver domains=example.com
-$ sudo snap set mailserver domains=example.com,example.net
-"
-elif [ -z $POSTFIX_DOMAIN ] || [ -z $POSTFIX_ORIGIN ]; then
-echo "
-                  Postfix domains
-########################################################
-You need to set postfix-domain and postfix-origin. This
-is most likely one of $DOMAINS or $(hostname -f).
-
-For example:
-$ sudo snap set mailserver postfix-domain=example.com
-$ sudo snap set mailserver postfix-origin=example.com
-"
+if [ -e $SNAP_DATA/do-provision ]; then
+  echo "The provision tasks on the server is running, please give"
+  echo "the it a minute to get ready fully ready."
+  echo
 fi
 
-echo "
-             Applied configuration values
-########################################################
-domains            = $DOMAINS
-postfix-domain     = $POSTFIX_DOMAIN
-postfix-origin     = $POSTFIX_ORIGIN
-postfix-relay-host = $POSTFIX_RELAY_HOST
-use-snakeoil-cert  = $USE_SNAKEOIL_CERT
-haproxy-username   = $HAPROXY_USERNAME
-haproxy-password   = $HAPROXY_PASSWORD
-"
-
-if pgrep ansible-playbook 2>&1 > /dev/null; then
-  echo "Provision is running, the above configuration values are applied."
-  echo "If this failes, please check run \"mailserver.provision-logs\" and"
-  echo "check for errors."
-else
-  echo "Servers last updated at $(stat --format=%y $SNAP_DATA/provision.log)"
-  echo "For provision logs run \"mailserver.provision-logs\""
+echo "Instructions and configurations is found in the web interface."
+echo "Visit it on port 8080 to configure it, the username and password"
+echo "is set to ${USERNAME:-admin} and ${PASSWORD:-password}."
+echo
+echo "If you prefer the cli, type \"sudo snap get mailserver\" to list"
+echo "all options and then do a \"sudo snap set mailserver foo=bar\"."
+echo
+echo " - http://$IPV4:8080"
+if [[ $IPV4 != $IPV6 ]]; then
+  echo " - http://$IPv6:8080"
 fi
+echo " - http://127.0.0.1:8080"
+echo " - http://$(hostname -f):8080"
