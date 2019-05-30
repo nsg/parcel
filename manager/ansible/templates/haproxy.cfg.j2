@@ -8,6 +8,9 @@ defaults
     timeout server 30s
     mode tcp
 
+userlist admin_users
+  user {{ haproxy_username }} insecure-password {{ haproxy_password }}
+
 listen smtp
   bind *:25
   option smtpchk HELO {{ postfix_domain }}
@@ -34,6 +37,7 @@ frontend www
   bind *:8080
   mode http
 
+  http-request auth realm mailserver unless { http_auth(admin_users) }
   use_backend stats if { path -i -m beg /stats/ }
   default_backend www
 
