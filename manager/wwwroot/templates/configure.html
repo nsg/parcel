@@ -7,7 +7,16 @@
       <div class="row">
         <div class="col">
           <p class="lead text-center">
-            Configure all components of your server here.
+            Configure components of your server here.
+          </p>
+          <p>
+            Before we get started let me explain the configuration flow.
+            The forms on this page will update the configuration in snapd. If you
+            prefer to use the cli type <code>sudo snap get mailserver</code> to
+            list the configuration. After a configuration change, an Ansible playbook
+            will be triggered that provision several LXD containers on the specified
+            LXD host. It is important that the host where the snap is installed can
+            access the network specified in the default profile.
           </p>
         </div>
       </div>
