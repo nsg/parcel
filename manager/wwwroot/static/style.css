@@ -1,0 +1,17 @@
+code.code-block {
+    page-break-inside: avoid;
+    max-width: 100%;
+    overflow: auto;
+    padding: 1em 1.5em;
+    display: block;
+    word-wrap: break-word;
+    white-space: pre-line;
+}
+
+code {
+    background: #212529;
+    border: 1px solid #676767;
+    color: #dfdfdf;
+    font-family: monospace;
+    padding: 0em 0.2em;
+}

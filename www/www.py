@@ -1,4 +1,6 @@
 import os
+import random
+import string
 import subprocess
 import pathlib
 import responder
@@ -17,6 +19,15 @@ def set_config(key, val):
     if stderr:
         return False
     return True
+
+def gen_example_pass():
+    letters = string.ascii_lowercase \
+        + string.ascii_uppercase \
+        + "0123456789_-"
+    p = []
+    for _ in range(16):
+        p.append(random.choice(letters))
+    return ''.join(p)
 
 ROOT = "{}/wwwroot".format(os.environ['SNAP'])
 DATA = os.environ['SNAP_DATA']
@@ -55,7 +66,8 @@ async def page(req, resp, *, page):
             "{}.html".format(norm_page),
             menu=MENU,
             current="/{}/".format(norm_page),
-            page=norm_page
+            page=norm_page,
+            example_password=gen_example_pass()
         )
     else:
         resp.text = "404: Page not found"
