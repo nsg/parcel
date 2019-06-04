@@ -1,8 +1,8 @@
 ---
 
-name: mailserver
+name: parcel
 version: '0.1'
-summary: A mailserver in a single snap
+summary: A mailserver wrapped in a snap
 description: |
   There are a few pieces that you need to manage your own mail server.
   This snap makes the process easy, it will setup most things that
@@ -47,7 +47,7 @@ apps:
       - network
       - network-bind
 
-  mailserver:
+  parcel:
     command: bin/mailservercmd
     plugs:
       - network
