@@ -29,5 +29,5 @@
       changed_when: no
 
     - name: restart haproxy
-      shell: snapctl restart mailserver.haproxy
+      shell: snapctl restart parcel.haproxy
       changed_when: no

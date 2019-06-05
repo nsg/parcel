@@ -16,8 +16,8 @@ echo "Instructions and configurations is found in the web interface."
 echo "Visit it on port 8080 to configure it, the username and password"
 echo "is set to ${USERNAME:-admin} and ${PASSWORD:-password}."
 echo
-echo "If you prefer the cli, type \"sudo snap get mailserver\" to list"
-echo "all options and then do a \"sudo snap set mailserver foo=bar\"."
+echo "If you prefer the cli, type \"sudo snap get parcel\" to list"
+echo "all options and then do a \"sudo snap set parcel foo=bar\"."
 echo
 echo " - http://$IPV4:8080"
 if [[ $IPV4 != $IPV6 ]]; then

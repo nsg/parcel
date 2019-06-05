@@ -1,9 +1,9 @@
-# Mailserver
+# Parcel
 [![Snap Status](https://build.snapcraft.io/badge/nsg/snap-mailserver.svg)](https://build.snapcraft.io/user/nsg/snap-mailserver)
 
 ## About this snap
 
-This snap will setup all you need to run a mailserver of your own. This
+This snap will setup all you need to run a e-mail server of your own. This
 snap will provision several LXD containers containing all software and
 configuration.
 

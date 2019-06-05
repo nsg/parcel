@@ -8,4 +8,4 @@ fi
 touch $SNAP_DATA/do-provision
 
 # www loads a few variables on start
-snapctl restart mailserver.www
+snapctl restart parcel.www
