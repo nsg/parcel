@@ -9,7 +9,7 @@
           <p class="lead text-justify">
             Welcome to your Mail Server, I will try to make this as easy as possible but there
             is a lot of moving parts in E-mail. If you are stuck feel free to
-            <a href="/">open an issue</a> over at GitHub and ask for help.
+            <a href="https://github.com/nsg/parcel/issues">open an issue</a> over at GitHub and ask for help.
           </p>
         </div>
       </div>
@@ -20,11 +20,12 @@
             This snap contains the reverse proxy <a href="https://haproxy.org">HAProxy</a>
             that is used to control traffic, this administrative interface and several
             <a href="https://ansible.com">Ansible</a> playbooks that provisions the actual mail
-            servers. All the source code can be found over at <a href="/">GitHub</a>.
+            servers. All the source code can be found over at <a href="https://github.com/nsg/parcel">GitHub</a>.
           </p>
           <p>
-            This snap will then use the <a href="https://snapcraft.io/lxd">LXD snap</a> to
-            create several system containers, these containers will then be used to setup
+            This snap will use <a href="https://linuxcontainers.org/lxd/">LXD</a>. Easiest is it to use
+            the <a href="https://snapcraft.io/lxd">LXD snap</a> to create the system containers, but
+            you can also use a remote LXD installation. The LXD containers will then be used to setup
             all bits and pieces needed to run your mail server.
           </p>
           <h5>Why not bundle everything inside the snap?</h5>
@@ -89,7 +90,7 @@
       </div>
       <div class="fixed-bottom text-center">
         <small>
-          Feel free to contact me at <a href="/">GitHub</a> if you need help, or have
+          Feel free to contact me at <a href="https://github.com/nsg/parcel/issues">GitHub</a> if you need help, or have
           suggestions.
         </small>
       </div>
