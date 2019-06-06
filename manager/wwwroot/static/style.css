@@ -3,6 +3,7 @@ code.code-block {
     max-width: 100%;
     overflow: auto;
     padding: 1em 1.5em;
+    margin-bottom: 1em;
     display: block;
     word-wrap: break-word;
     white-space: pre-line;
