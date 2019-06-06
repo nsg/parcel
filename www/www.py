@@ -90,7 +90,9 @@ async def config(req, resp):
             "use-snakeoil-cert",
             "haproxy-username",
             "haproxy-password",
-            "lxd-method"
+            "lxd-method",
+            "lxd-remote",
+            "lxd-password",
         ]
         config = {}
         for val in values:

@@ -3,12 +3,6 @@ window.onload = function() {
     fix_code_blocks()
 };  
 
-function get_config() {
-    apicall("/api/config", function(ret) {
-        console.log(ret);
-    });
-}
-
 function save_lxd_config() {
     var update = []
 
@@ -31,4 +25,15 @@ function save_lxd_config() {
     });
 
     return false;
+}
+
+function update_card_lxd_socket() {
+    apicall("/api/config", function(ret) {
+        if (ret.config['lxd-remote']) {
+            document.getElementById("lxd-remote").value = ret.config['lxd-remote'];
+        }
+        if (ret.config['lxd-password']) {
+            document.getElementById("lxd-password").value = ret.config['lxd-password'];
+        }
+    });
 }
