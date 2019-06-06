@@ -4,20 +4,38 @@
   hosts: localhost
   gather_facts: no
   tasks:
+
+    - name: Check if the LXD socket is enabled
+      stat:
+        path: "{{ lookup('env','SNAP_DATA') }}/has-lxd-socket-access"
+      register: socket
+
     - name: Get list of LXD remotes
       command: snapctl get lxd-remotes
       register: remotes
       changed_when: no
+      when: socket.stat.path is not defined
 
-    - set_fact:
+    - name: Parse remote configuration
+      set_fact:
         lxd_remotes: "{{ remotes.stdout | from_json }}"
+      when: socket.stat.path is not defined
 
-    - name: Destroy containers
+    - name: Destroy containers | LXD Socket
       lxd_container:
         name: "{{ item }}"
         state: absent
-        #url: unix:/var/snap/lxd/common/lxd/unix.socket
+        snap_url: None # This is needed, bug!
+        url: unix:/var/snap/lxd/common/lxd/unix.socket
+      loop: "{{ groups['containers'] }}"
+      when: socket.stat.path is defined
+
+    - name: Destroy containers | LXD Remote
+      lxd_container:
+        name: "{{ item }}"
+        state: absent
         snap_url: None # This is needed, bug!
         url: "https://{{ lxd_remotes[0].url }}"
         trust_password: "{{ lxd_remotes[0].password }}"
       loop: "{{ groups['containers'] }}"
+      when: socket.stat.path is not defined

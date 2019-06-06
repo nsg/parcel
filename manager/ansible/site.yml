@@ -6,19 +6,45 @@
   hosts: localhost
   gather_facts: no
   tasks:
+
+    - name: Check if the LXD socket is enabled
+      stat:
+        path: "{{ lookup('env','SNAP_DATA') }}/has-lxd-socket-access"
+      register: socket
+
     - name: Get list of LXD remotes
       command: snapctl get lxd-remotes
       register: remotes
       changed_when: no
+      when: socket.stat.path is not defined
 
-    - set_fact:
+    - name: Parse remote configuration
+      set_fact:
         lxd_remotes: "{{ remotes.stdout | from_json }}"
+      when: socket.stat.path is not defined
 
-    - name: Create containers
+    - name: Create containers | LXD Socket
       lxd_container:
         name: "{{ item }}"
         state: started
-        #url: unix:/var/snap/lxd/common/lxd/unix.socket
+        snap_url: None # This is needed, bug!
+        url: unix:/var/snap/lxd/common/lxd/unix.socket
+        source:
+          type: image
+          mode: pull
+          server: https://images.linuxcontainers.org
+          protocol: lxd
+          alias: ubuntu/xenial/amd64
+        profiles: ["default"]
+        wait_for_ipv4_addresses: true
+        timeout: 600
+      loop: "{{ groups['containers'] }}"
+      when: socket.stat.path is defined
+
+    - name: Create containers | LXD Remote
+      lxd_container:
+        name: "{{ item }}"
+        state: started
         snap_url: None # This is needed, bug!
         url: "https://{{ lxd_remotes[0].url }}"
         trust_password: "{{ lxd_remotes[0].password }}"
@@ -32,6 +58,7 @@
         wait_for_ipv4_addresses: true
         timeout: 600
       loop: "{{ groups['containers'] }}"
+      when: socket.stat.path is not defined
 
 - name: Setup OpenDKIM container
   hosts: opendkim
