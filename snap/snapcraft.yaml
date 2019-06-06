@@ -17,11 +17,6 @@ architectures:
   - build-on: amd64
     run-on: amd64
 
-hooks:
-  configure:
-    plugs:
-      - lxd
-
 apps:
   service:
     command: bin/service

@@ -8,20 +8,20 @@
   tasks:
 
     - name: Check if the LXD socket is enabled
-      stat:
-        path: "{{ lookup('env','SNAP_DATA') }}/has-lxd-socket-access"
-      register: socket
+      command: snapctl get lxd-method
+      changed_when: no
+      register: lxd_method
 
     - name: Get list of LXD remotes
       command: snapctl get lxd-remotes
       register: remotes
       changed_when: no
-      when: socket.stat.path is not defined
+      when: "'remote' in lxd_method.stdout"
 
     - name: Parse remote configuration
       set_fact:
         lxd_remotes: "{{ remotes.stdout | from_json }}"
-      when: socket.stat.path is not defined
+      when: "'remote' in lxd_method.stdout"
 
     - name: Create containers | LXD Socket
       lxd_container:
@@ -39,7 +39,7 @@
         wait_for_ipv4_addresses: true
         timeout: 600
       loop: "{{ groups['containers'] }}"
-      when: socket.stat.path is defined
+      when: "'socket' in lxd_method.stdout"
 
     - name: Create containers | LXD Remote
       lxd_container:
@@ -58,7 +58,7 @@
         wait_for_ipv4_addresses: true
         timeout: 600
       loop: "{{ groups['containers'] }}"
-      when: socket.stat.path is not defined
+      when: "'remote' in lxd_method.stdout"
 
 - name: Setup OpenDKIM container
   hosts: opendkim

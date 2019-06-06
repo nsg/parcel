@@ -6,20 +6,20 @@
   tasks:
 
     - name: Check if the LXD socket is enabled
-      stat:
-        path: "{{ lookup('env','SNAP_DATA') }}/has-lxd-socket-access"
-      register: socket
+      command: snapctl get lxd-method
+      changed_when: no
+      register: lxd_method
 
     - name: Get list of LXD remotes
       command: snapctl get lxd-remotes
       register: remotes
       changed_when: no
-      when: socket.stat.path is not defined
+      when: "'remote' in lxd_method.stdout"
 
     - name: Parse remote configuration
       set_fact:
         lxd_remotes: "{{ remotes.stdout | from_json }}"
-      when: socket.stat.path is not defined
+      when: "'remote' in lxd_method.stdout"
 
     - name: Destroy containers | LXD Socket
       lxd_container:
@@ -28,7 +28,7 @@
         snap_url: None # This is needed, bug!
         url: unix:/var/snap/lxd/common/lxd/unix.socket
       loop: "{{ groups['containers'] }}"
-      when: socket.stat.path is defined
+      when: "'socket' in lxd_method.stdout"
 
     - name: Destroy containers | LXD Remote
       lxd_container:
@@ -38,4 +38,4 @@
         url: "https://{{ lxd_remotes[0].url }}"
         trust_password: "{{ lxd_remotes[0].password }}"
       loop: "{{ groups['containers'] }}"
-      when: socket.stat.path is not defined
+      when: "'remote' in lxd_method.stdout"

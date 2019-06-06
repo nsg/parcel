@@ -88,7 +88,8 @@ async def config(req, resp):
             "postfix-relay-host",
             "use-snakeoil-cert",
             "haproxy-username",
-            "haproxy-password"
+            "haproxy-password",
+            "lxd-method"
         ]
         config = {}
         for val in values:
@@ -131,22 +132,6 @@ async def ansible(req, resp):
     elif req.method == "post":
         pathlib.Path("{}/do-provision".format(DATA)).touch(exist_ok=True)
         resp.media = {"success": True}
-    else:
-        resp.media = {"success": False}
-
-@api.route("/api/info")
-async def info(req, resp):
-    if req.headers.get('TOKEN') != SECRET_TOKEN:
-        resp.media = {"message": "Error: You need to provide a correct TOKEN"}
-        return
-
-    if req.method == "get":
-        socket_access = pathlib.Path("{}/has-lxd-socket-access".format(DATA)).exists()
-        resp.media = {
-            "success": True,
-            "lxd_socket": socket_access
-        }
-
     else:
         resp.media = {"success": False}
 
