@@ -36,6 +36,7 @@ SECRET_TOKEN = get_config("www-token")
 MENU = [
     {"name": "Welcome", "url": "/", "id": "index"},
     {"name": "Configure", "url": "/configure/", "id": "configure"},
+    {"name": "Stats", "url": "/stats/", "id": "stats"},
     {"name": "Provision", "url": "/provision/", "id": "provision"},
 ]
 
