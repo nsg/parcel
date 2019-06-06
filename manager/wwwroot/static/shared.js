@@ -9,18 +9,6 @@ function apicall(url, callback) {
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
   }
-
-function update_menu_badges() {
-
-    apicall("/api/ansible", function(ret) {
-        menu_id = "menu-provision";
-        if (ret.running) {
-            document.getElementById(menu_id).style.textTransform = "uppercase";
-        } else {
-            document.getElementById(menu_id).style.textTransform = "none";
-        }
-    });
-
 }
 
 // If someone finds a way to do this in CSS, please open a issue/PR

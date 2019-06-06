@@ -32,8 +32,6 @@ window.onload = function() {
   });
 
   setInterval(detect_trigger_changes, 10000);
-  setInterval(update_menu_badges, 10000);
-  update_menu_badges();
 };
 
 function detect_trigger_changes() {
