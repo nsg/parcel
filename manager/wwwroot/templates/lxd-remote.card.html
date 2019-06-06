@@ -13,15 +13,15 @@
     You also need to protect LXD by setting a good password.
 </p>
 <p>
-    If you previously have used the lxd snap, you need to disconnect lxd if you like to use the this option
-    with a <code>sudo snap disconnect parcel:lxd</code>. The system will prioritize the lxd snap over this
-    option if both are configured.
-</p>
-<p>
     <code class="code-block">
         sudo lxc config set core.https_address "127.0.0.1"
         sudo lxc config set core.trust_password "{{ args.example_password }}"
     </code>
+</p>
+<p>
+    You need to disconnect the lxd snap if you have previously used it
+    with a <code>sudo snap disconnect parcel:lxd</code>.
+    The system will prioritize the lxd snap over this option if both are configured.
 </p>
 <div class="form-group">
     <label for="lxd-remote">LXD Remote</label>
