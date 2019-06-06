@@ -10,10 +10,25 @@ function get_config() {
 }
 
 function save_lxd_config() {
-    var remote = document.getElementById("lxd-remote");
-    var password = document.getElementById("lxd-password");
+    var update = []
 
-    console.log(submit.parentNode);
+    update.push({
+        "key": "lxd-remote",
+        "value": document.getElementById("lxd-remote").value
+    });
+
+    update.push({
+        "key": "lxd-password",
+        "value": document.getElementById("lxd-password").value
+    });
+
+    $.ajax({
+        type: "POST",
+        url: "/api/config",
+        data: JSON.stringify({"update": update}),
+        success: null,
+        contentType : 'application/json'
+    });
 
     return false;
 }
