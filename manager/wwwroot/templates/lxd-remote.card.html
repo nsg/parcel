@@ -19,8 +19,11 @@
     </code>
 </p>
 <p>
-    You need to disconnect the lxd snap if you have previously used it
-    with a <code>sudo snap disconnect parcel:lxd</code>.
+    You need to disconnect the lxd snap if you have previously used it with:
+    <code class="code-block">
+        sudo snap disconnect parcel:lxd
+        sudo snap set parcel lxd-method=remote
+    </code>
     The system will prioritize the lxd snap over this option if both are configured.
 </p>
 <div class="form-group">
