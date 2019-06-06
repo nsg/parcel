@@ -1,3 +1,4 @@
+{% import 'accordion.macro.html' as accordion %}
 {% include 'header.html' %}
       <div class="row">
         <div class="col">
@@ -10,69 +11,13 @@
             Configure components of your server here.
           </p>
         </div>
-      </div>
+      </div> 
       <form>
           <div class="row">
             <div class="accordion" id="accordionConfig">
-                <div class="card">
-                  <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
-                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseLXDConfig" aria-expanded="true" aria-controls="collapseLXDConfig">
-                          LXD Container Configuration
-                      </button>
-                    </h5>
-                  </div>
-              
-                  <div id="collapseLXDConfig" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionConfig">
-                    <div class="card-body">
-                      <p>
-                        This snap uses LXD system containers to run the email software and
-                        for various tools. You can install LXD on the same system (easiest)
-                        or on a remote server (it's important that this snap has access to
-                        the same network).
-                        If you are running Ubuntu, LXD is already installed. If not
-                        <a href="https://snapcraft.io/lxd">lxd is available inside
-                        the snap store</a>. You can verify that lxd is installed by
-                        running the command <code>lxc</code> (lxd client).
-                      </p>
-                      <p>
-                        If you intend to use the local LXD installation set
-                        <code>core.https_address</code> to <code>127.0.0.1</code>,
-                        if you are using a separate machine set it to <code>[::]</code>.
-                        You also need to protect LXD by setting a good password,
-                        for example <code>{{ example_password }}</code>.
-                      </p>
-                      <p>
-                        <code class="code-block">sudo lxc config set core.https_address "127.0.0.1"
-                        sudo lxc config set core.trust_password "{{ example_password }}"</code>
-                      </p>
-                      <div class="form-group">
-                        <label for="lxd-remote">LXD Remote (https_address)</label>
-                        <input type="url" class="form-control" id="lxd-remote" placeholder="https://127.0.0.1:8443">
-                        <small class="form-text text-muted">The default port is 8443, you can specify a different port with the lxc command if you like.</small>
-                      </div>
-                      <div class="form-group">
-                        <label for="lxd-password">LXD Password (trust_password)</label>
-                        <input type="url" class="form-control" id="lxd-password" placeholder="{{ example_password }}">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-header" id="headingTwo">
-                    <h5 class="mb-0">
-                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        E-mail domains
-                      </button>
-                    </h5>
-                  </div>
-                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionConfig">
-                    <div class="card-body">
-                      TODO
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {{ accordion.card('lxd-socket', 'LXD Configuration (Local LXD Snap)', 'lxd-socket') }}
+              {{ accordion.card('lxd-remote', 'LXD Configuration (Remote Host)', 'lxd-remote', args={'example_password': example_password}) }}
+            </div>
           </div>
         <div class="row">
           <div class="col-sm">
