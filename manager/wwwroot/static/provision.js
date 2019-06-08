@@ -62,6 +62,9 @@ function render_plays(plays) {
         if (h.changed) {
           badge.classList.add("badge-primary");
           badge.innerHTML = host;
+        } else if (h.skipped) {
+          badge.classList.add("badge-secondary");
+          badge.innerHTML = host;
         } else if (h.failed) {
           badge.classList.add("badge-danger");
           if (h.msg) {
