@@ -1,7 +1,5 @@
 ---
 
-- import_playbook: haproxy.yml stage=1
-
 - name: Create and start containers
   hosts: localhost
   gather_facts: no
@@ -79,4 +77,4 @@
   roles:
     - dovecot
 
-- import_playbook: haproxy.yml stage=2
+- import_playbook: haproxy.yml

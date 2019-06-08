@@ -6,7 +6,6 @@
   tasks:
 
     - include_tasks: container-facts.yml
-      when: stage == 2
 
     - name: Get www token from snapd
       command: snapctl get www-token
