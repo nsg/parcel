@@ -1,0 +1,18 @@
+<div class="form-group">
+    <label for="lxd-remote">Origin</label>
+    <input type="text" class="form-control" id="origin" placeholder="myserver.example.com (sample)">
+    <small class="form-text text-muted">
+        Please specify this servers origin, this is probably a FQDN pointing to this server.
+    </small>
+</div>
+<div class="form-group">
+    <label for="domains">Domains</label>
+    <input type="text" class="form-control" id="domains" placeholder="example.com (sample)">
+    <small class="form-text text-muted">
+        A comma separated list of one or more domains, for example: <code>example.com,example.net</code>.
+    </small>
+</div>
+
+<div class="form-group">
+    <button type="submit" class="btn btn-primary" onclick="return save_data(['origin', 'domains']);">Save configuration</button>
+</div>

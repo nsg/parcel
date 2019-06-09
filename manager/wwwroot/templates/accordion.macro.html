@@ -1,15 +1,15 @@
-{% macro card(name, label, content, args, js_onclick="false") %}
+{% macro card(name, label, args, update_fields="") %}
 <div class="card">
     <div class="card-header" id="head-{{ name }}">
     <h5 class="mb-0">
-        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#col-{{ name }}" aria-expanded="false" aria-controls="col-{{ name }}" onclick="return {{ js_onclick }}();">
+        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#col-{{ name }}" aria-expanded="false" aria-controls="col-{{ name }}" onclick="return update_card_str('{{ update_fields }}');">
         {{ label }}
         </button>
     </h5>
     </div>
     <div id="col-{{ name }}" class="collapse" aria-labelledby="head-{{ name }}" data-parent="#accordionConfig">
     <div class="card-body">
-        {% include content + ".card.html" %}
+        {% include name + ".card.html" %}
     </div>
     </div>
 </div>

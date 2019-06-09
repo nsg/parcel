@@ -3,17 +3,13 @@ window.onload = function() {
     fix_code_blocks()
 };  
 
-function save_lxd_config() {
+function save_data(values) {
     var update = []
-
-    update.push({
-        "key": "lxd-remote",
-        "value": document.getElementById("lxd-remote").value
-    });
-
-    update.push({
-        "key": "lxd-password",
-        "value": document.getElementById("lxd-password").value
+    values.forEach(element => {
+        update.push({
+            "key": element,
+            "value": document.getElementById(element).value
+        });
     });
 
     $.ajax({
@@ -27,13 +23,16 @@ function save_lxd_config() {
     return false;
 }
 
-function update_card_lxd_socket() {
+function update_card(values) {
     apicall("/api/config", function(ret) {
-        if (ret.config['lxd-remote']) {
-            document.getElementById("lxd-remote").value = ret.config['lxd-remote'];
-        }
-        if (ret.config['lxd-password']) {
-            document.getElementById("lxd-password").value = ret.config['lxd-password'];
-        }
+        values.forEach(element => {
+            if (ret.config[element]) {
+                document.getElementById(element).value = ret.config[element];
+            }
+        });
     });
+}
+
+function update_card_str(values_text) {
+    update_card(values_text.split(","));
 }

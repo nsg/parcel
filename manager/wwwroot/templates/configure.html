@@ -17,49 +17,22 @@
             <div class="accordion" id="accordionConfig">
               {{ accordion.card(
                 'lxd-socket',
-                'LXD Configuration - Local LXD Snap (The easy option, recommended)',
-                'lxd-socket')
+                'LXD Configuration - Local LXD Snap (The easy option, recommended)')
               }}
 
               {{ accordion.card(
                 'lxd-remote',
                 'LXD Configuration - Remote Host / Non-snap LXD',
-                'lxd-remote',
                 args={'example_password': example_password},
-                js_onclick='update_card_lxd_socket')
+                update_fields='lxd-remote,lxd-password')
+              }}
+
+              {{ accordion.card(
+                'server-domains',
+                'Domains & Server Origin',
+                update_fields='origin,domains')
               }}
             </div>
           </div>
         </div>
-      <div class="row">
-        <div class="col-sm">
-          <div class="form-group">
-            <label for="origin">Origin</label>
-            <input type="email" class="form-control" id="origin" placeholder="Enter email">
-            <small class="form-text text-muted">
-              This servers origin domain, this is most likely this servers FQDN.
-              I you write example.com here, root@example.com should end up at this
-              server.
-            </small>
-          </div>
-          <div class="form-group">
-              <label for="domains">Domains</label>
-              <input type="email" class="form-control" id="domains" placeholder="Enter email">
-              <small class="form-text text-muted">
-                A comma separated list of domains, for example: example.com, example.net
-              </small>
-            </div>
-          </div>
-        <div class="col-sm">
-          <div class="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-        </div>
-      </div>
 {% include 'footer.html' %}
