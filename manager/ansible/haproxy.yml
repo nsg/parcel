@@ -7,11 +7,6 @@
 
     - include_tasks: container-facts.yml
 
-    - name: Get www token from snapd
-      command: snapctl get www-token
-      register: token
-      changed_when: no
-
     # This is needed. If the file exists, Ansible tries to
     # lookup the files attributes, but is stopped by Apparmor.
     - name: Remove config view file

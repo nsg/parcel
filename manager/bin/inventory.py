@@ -17,6 +17,7 @@ CONF_VALUES = [
         ("lxd_method", "remote"),
         ("lxd_remote", ""),
         ("lxd_password", ""),
+        ("www_token", "insecure"), # A good password should have been generated in the install hook
     ]
 
 def get_conf(param, default):
