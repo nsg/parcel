@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col border-right border-secondary">
+        <div class="col-sm border-right border-secondary">
           <p>
             This page
             displays the status and logs from the latest provision operation.
@@ -21,24 +21,18 @@
             The <a href="/status/">status</a> page also displays various
             information that may help you.
           </p>
-        </div>
-        <div class="col">
           <p>
             The containers are provisioned on snap install, configuration changes
             and once every hour. This is done to make sure that configuration and
             package information is correct and always in a working order.
           </p>
+          <button type="button" class="btn btn-sm btn-dark" onclick="trigger()">Trigger provision</button>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-sm border-right border-secondary">
+        <div class="col-sm">
           <h3>Provision status</h3>
           <p id="ansible"></p>
           <div class="alert alert-primary" role="alert" id="ansible-messages"></div>
           <div id="ansible-log"></div>
-        </div>
-        <div class="col-sm">
-          <button type="button" class="btn btn-sm btn-dark" onclick="trigger()">Trigger provision</button>
         </div>
       </div>
 {% include 'footer.html' %}
