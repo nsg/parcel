@@ -10,6 +10,9 @@
     <div id="col-{{ name }}" class="collapse" aria-labelledby="head-{{ name }}" data-parent="#accordionConfig">
     <div class="card-body">
         {% include name + ".card.html" %}
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" onclick="return save_data(this, '{{ update_fields }}');">Save</button>
+        </div>
     </div>
     </div>
 </div>

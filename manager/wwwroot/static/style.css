@@ -16,3 +16,7 @@ code {
     font-family: monospace;
     padding: 0em 0.2em;
 }
+
+.button-saving {
+    opacity: 0.5;
+}
