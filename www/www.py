@@ -83,14 +83,11 @@ async def config(req, resp):
     if req.method == "get":
         values = [
             "domains",
-            "dkim-domains",
-            "postfix-domain",
-            "postfix-origin",
+            "origin",
             "postfix-relay-host",
             "use-snakeoil-cert",
             "haproxy-username",
             "haproxy-password",
-            "lxd-method",
             "lxd-remote",
             "lxd-password",
         ]
