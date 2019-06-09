@@ -13,6 +13,7 @@ CONF_VALUES = [
         ("postfix_relay_host", False),
         ("use_snakeoil_cert", True),
         ("haproxy_username", "admin"),
+        ("haproxy_password", "password"), # A good password should have been generated in the install hook
         ("lxd_method", "remote"),
         ("lxd_remote", ""),
         ("lxd_password", ""),
