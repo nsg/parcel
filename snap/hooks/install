@@ -15,11 +15,19 @@ frontend www
 
   http-request add-header TOKEN $WWW_TOKEN
   http-request auth realm mailserver unless { http_auth(admin_users) }
+  use_backend stats if { path -i -m beg /stats/ }
   default_backend www
 
 backend www
   mode http
   server www 127.0.0.1:5042 check
+
+backend stats
+  mode http
+  stats enable
+  stats hide-version
+  stats auth admin:$HAPROXY_PASSWORD
+  stats uri /stats/
 EOF
 
 # Make sure we have a empty logfile on a clean install
