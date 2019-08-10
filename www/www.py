@@ -5,6 +5,8 @@ import subprocess
 import pathlib
 import responder
 import json
+import socket
+import dns.resolver
 
 def get_config(val):
     stdout, stderr = subprocess.Popen(["snapctl", "get", val],
@@ -134,6 +136,40 @@ async def ansible(req, resp):
         resp.media = {"success": True}
     else:
         resp.media = {"success": False}
+
+@api.route("/api/validate")
+async def validate(req, resp):
+    if req.headers.get('TOKEN') != SECRET_TOKEN:
+        resp.media = {"message": "Error: You need to provide a correct TOKEN"}
+        return
+
+    if req.method == "post":
+        req_data = await req.media()
+        field = req_data['field']
+        data = req_data['data']
+        msg = []
+
+        if field == "origin":
+            if not is_resolve(data):
+                msg.append("Lookup of {} failed".format(data))
+
+        elif field == "domains":
+            for d in data.split(","):
+                try:
+                    for x in dns.resolver.query(d, 'MX'):
+                        if not is_resolve(x.exchange.to_text()):
+                            msg.append("Lookup of {} failed".format(x.exchange.to_text()))
+                except dns.resolver.NoAnswer:
+                    msg.append("Lookup of {} failed, no MX records found!".format(d))
+
+        resp.media = msg
+
+def is_resolve(domain):
+    try:
+        socket.gethostbyname(domain)
+    except Exception:
+        return False
+    return True
 
 def main():
     api.run()

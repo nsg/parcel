@@ -72,6 +72,21 @@ function save_data(save_button, values_str) {
 function validate(field, data) {
     let msg = [];
 
+    // Server side validations
+    $.ajax({
+        type: "POST",
+        url: "/api/validate",
+        data: JSON.stringify({"field": field, "data": data}),
+        success: null,
+        contentType : 'application/json',
+        async: false
+    }).done(function(ret) {
+        ret.forEach(element => {
+            msg.push(element)
+        });
+    });
+
+    // Client side validations
     switch(field) {
         case "origin":
             if (data.match(/[, ]/)) msg.push("Origin must be a valid single domain/FQDN.");

@@ -108,6 +108,7 @@ parts:
     python-packages:
       # bug: https://github.com/kennethreitz/responder/issues/337
       - git+https://github.com/kennethreitz/responder
+      - dnspython
 
   ansible:
     plugin: python
