@@ -158,9 +158,11 @@ async def validate(req, resp):
                 try:
                     for x in dns.resolver.query(d, 'MX'):
                         if not is_resolve(x.exchange.to_text()):
-                            msg.append("Lookup of {} failed".format(x.exchange.to_text()))
+                            msg.append("The MX record points to {}, lookup failed!".format(x.exchange.to_text()))
                 except dns.resolver.NoAnswer:
-                    msg.append("Lookup of {} failed, no MX records found!".format(d))
+                    msg.append("No MX records found for {}. You need to add one or more MX records to the domain.".format(d))
+                except dns.resolver.NXDOMAIN:
+                    msg.append("Lookup of {} failed, domain not found.".format(d))
 
         resp.media = msg
 
