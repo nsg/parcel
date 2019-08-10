@@ -17,11 +17,31 @@ use the remote interface to connect to an existing remote (or local) LXD install
 
 The picture below is a simplified overview of a Parcel install. HAProxy is a
 reverse proxy that routes traffic, it's used to send traffic back and forth
-between different compontents. The acual mailserver software are running inside
+between different components. The actual mailserver software are running inside
 LXD containers, in this example all on the same server. Parcel also has a remote
 option if you like to connect to a existing remote LXD install.
 
 ![Simplified Parcel overview](docs/images/parcel-local.png)
+
+## Install
+
+Install the snap on a public server, preferably not on a home server due the
+fact that most home connects are blacklisted due to spam.
+
+```
+$ snap install parcel
+```
+
+The above command will install the stable release, this are the available channels. Install them with `snap install --candidate parcel`.
+
+| Channel | Description |
+| ------- | ----------- |
+| stable  | A tested stable release, recommended for most users |
+| candidate | The upcoming stable release, I think this one is stable but it's here to test it before I promote it to stable |
+| beta | Beta releases for more experimental upcoming releases, please report bugs. |
+| edge | The latest code in master of this repository, this is **absolutely not** stable |
+
+Now run `parcel` in a terminal and follow the instructions.
 
 ## History
 
