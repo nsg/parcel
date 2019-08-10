@@ -1,3 +1,4 @@
 #!bin/bash
 
 snapctl set lxd-method=socket
+touch $SNAP_DATA/do-provision
