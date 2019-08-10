@@ -1,10 +1,19 @@
+<p>
+    The origin is the domain name that locally-posted mail appears to come from,
+    this is most likely the FQDN of the host where parcel is installed on.
+</p>
 <div class="form-group">
     <label for="lxd-remote">Origin</label>
     <input type="text" class="form-control" id="origin" placeholder="myserver.example.com (sample)">
     <small class="form-text text-muted">
-        Please specify this servers origin, this is probably a FQDN pointing to this server.
+        A domain or FQDN, for example: <code>example.com</code> or
+        <code>myhost.example.com</code>
     </small>
 </div>
+<p>
+    List all domains that you like to manage emails for. All domains need to have valid MX records
+    pointing to the server where Parcel is installed.
+</p>
 <div class="form-group">
     <label for="domains">Domains</label>
     <input type="text" class="form-control" id="domains" placeholder="example.com (sample)">

@@ -1,4 +1,4 @@
-{% macro card(name, label, args, update_fields="") %}
+{% macro card(name, label, args, update_fields="", hide_save=false) %}
 <div class="card">
     <div class="card-header" id="head-{{ name }}">
     <h5 class="mb-0">
@@ -10,9 +10,12 @@
     <div id="col-{{ name }}" class="collapse" aria-labelledby="head-{{ name }}" data-parent="#accordionConfig">
     <div class="card-body">
         {% include name + ".card.html" %}
+        {% if not hide_save %}
+        <div class="form-error-message alert alert-danger" style="display: none;"></div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary" onclick="return save_data(this, '{{ update_fields }}');">Save</button>
+            <button type="submit" class="btn btn-primary" onclick="return save_data(this, '{{ update_fields }}');">Validate & Save</button>
         </div>
+        {% endif %}
     </div>
     </div>
 </div>
