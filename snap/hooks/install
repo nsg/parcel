@@ -1,8 +1,23 @@
 #!/bin/bash
 
+HAPROXY_PASSWORD=$(< /dev/urandom tr -dc A-Z-a-z-0-9 | head -c12)
+WWW_TOKEN=$(< /dev/urandom tr -dc A-Z-a-z-0-9 | head -c12)
+
 cat <<EOF > $SNAP_DATA/haproxy.cfg
-listen stats
+# This is a default config file that should be overwritten by Ansible.
+
+userlist admin_users
+  user admin insecure-password $HAPROXY_PASSWORD
+
+frontend www
   bind *:8080
+  mode http
+
+  http-request add-header TOKEN $WWW_TOKEN
+  http-request auth realm mailserver unless { http_auth(admin_users) }
+  default_backend www
+
+backend www
   mode http
   server www 127.0.0.1:5042 check
 EOF
@@ -10,6 +25,6 @@ EOF
 # Make sure we have a empty logfile on a clean install
 touch $SNAP_DATA/provision.log
 
-snapctl set haproxy-password=$(< /dev/urandom tr -dc A-Z-a-z-0-9 | head -c12)
-snapctl set www-token=$(< /dev/urandom tr -dc A-Z-a-z-0-9 | head -c12)
+snapctl set haproxy-password=$HAPROXY_PASSWORD
+snapctl set www-token=$WWW_TOKEN
 snapctl set lxd-method=remote
