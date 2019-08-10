@@ -21,7 +21,7 @@ between different compontents. The acual mailserver software are running inside
 LXD containers, in this example all on the same server. Parcel also has a remote
 option if you like to connect to a existing remote LXD install.
 
-![test](docs/images/parcel-local.png)
+![Simplified Parcel overview](docs/images/parcel-local.png)
 
 ## History
 
