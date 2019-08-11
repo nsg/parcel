@@ -23,10 +23,10 @@ def get_conf(param):
     out = subprocess.check_output(["snapctl", "get", param]).decode("utf-8")
     if out.strip():
         ret = out.strip().split(",")
-        if len(ret) > 1 or isinstance(default, list):
+        if len(ret) > 1:
             return ret
         return ret[0]
-    raise Exception("No output from param {}".format(param))
+    return ""
 
 def noyes(s):
     if s in ["no", "false", "False"]:

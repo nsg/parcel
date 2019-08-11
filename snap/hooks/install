@@ -34,9 +34,13 @@ EOF
 touch $SNAP_DATA/provision.log
 
 # Generate default config values
+snapctl set domains=[]
+snapctl set origin=
 snapctl set haproxy-username=admin
 snapctl set haproxy-password=$HAPROXY_PASSWORD
 snapctl set www-token=$WWW_TOKEN
 snapctl set lxd-method=remote
 snapctl set use-snakeoil-cert=true
 snapctl set relay-host=false
+snapctl set lxd-remote=
+snapctl set lxd-password=
