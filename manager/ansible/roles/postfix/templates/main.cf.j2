@@ -5,10 +5,10 @@ compatibility_level = 2
 # We use the FQDN for myhostname, and the domain
 # for mydomain. These are later used in the config.
 myhostname = {{ ansible_fqdn }}
-mydomain = {{ postfix_domain }}
+mydomain = lxd
 
 # The origin of mails sent from this server.
-myorigin = {{ postfix_origin }}
+myorigin = {{ origin }}
 
 # Domains to manage directly
 mydestination = $myhostname localhost.$myhostname localhost
@@ -24,8 +24,8 @@ mynetworks =
 # Soft bounce
 soft_bounce = no
 
-{% if postfix_relay_host %}
-relayhost = {{ postfix_relay_host }}
+{% if relay_host %}
+relayhost = {{ relay_host }}
 {% endif %}
 
 # Setup transport maps for mail that will be delivered directly
@@ -120,11 +120,6 @@ milter_default_action = accept
 
 smtpd_milters = inet:{{ hostvars['opendkim']['ansible_default_ipv4']['address'] }}:12301
 non_smtpd_milters = inet:{{ hostvars['opendkim']['ansible_default_ipv4']['address'] }}:12301
-
-############################################################
-# Stacken VIRTUAL, this is used to manage users,           #
-# mailboxes, aliases and forwards for all our domains.     #
-############################################################
 
 {% if domains %}
 # Send mails to Dovecot to manage

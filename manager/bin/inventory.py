@@ -6,26 +6,34 @@ import argparse
 import subprocess
 
 CONF_VALUES = [
-        "domains",
-        "origin",
-        "relay_host",
-        "use_snakeoil_cert",
-        "haproxy_username",
-        "haproxy_password",
-        "lxd_method",
-        "lxd_remote",
-        "lxd_password",
-        "www_token",
+        ("domains", list),
+        ("origin", str),
+        ("relay_host", bool),
+        ("use_snakeoil_cert", bool),
+        ("haproxy_username", str),
+        ("haproxy_password", str),
+        ("lxd_method", str),
+        ("lxd_remote", str),
+        ("lxd_password", str),
+        ("www_token", str),
     ]
 
-def get_conf(param):
+def get_conf(param, param_type):
     param = param.replace('_','-')
     out = subprocess.check_output(["snapctl", "get", param]).decode("utf-8")
-    if out.strip():
+
+    if (param_type == str):
+        return out.strip()
+    elif (param_type == bool):
+        return noyes(out.strip())
+    elif (param_type == list):
         ret = out.strip().split(",")
         if len(ret) > 1:
             return ret
-        return ret[0]
+        try:
+            return json.loads(ret[0])
+        except ValueError:
+            return ret
     return ""
 
 def noyes(s):
@@ -37,8 +45,8 @@ def noyes(s):
 
 def get_inventory_vars():
     out = {}
-    for v in CONF_VALUES:
-        out[v] = noyes(get_conf(v))
+    for v,t in CONF_VALUES:
+        out[v] = get_conf(v, t)
     return out
 
 def main(argv):

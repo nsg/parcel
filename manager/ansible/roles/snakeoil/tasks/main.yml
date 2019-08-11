@@ -16,4 +16,4 @@
   - name: Generate snakoil cert
     command: openssl req -x509 -nodes -days 365 -newkey rsa:2048 -passin pass:{{ snakeoil_private_password }} -keyout {{ snakeoil_private_cert_key }} -out {{ snakeoil_cert_file }} -subj "{{ snakeoil_cert_subj }}"
     when: has_mail_cert.stat.exists == False
-  when: use_snakeoil_cert
+  when: "{{ use_snakeoil_cert }}"

@@ -14,12 +14,12 @@ userlist admin_users
 {% if 'ansible_default_ipv4' in hostvars['postfix'] %}
 listen smtp
   bind *:25
-  option smtpchk HELO {{ postfix_domain }}
+  option smtpchk HELO localdomain
   server postfix {{ hostvars['postfix']['ansible_default_ipv4']['address'] }}:25 send-proxy check
 
 listen smtp-tls
   bind *:587
-  option smtpchk HELO {{ postfix_domain }}
+  option smtpchk HELO localdomain
   server postfix {{ hostvars['postfix']['ansible_default_ipv4']['address'] }}:587 send-proxy check
 {% endif %}
 
