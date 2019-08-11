@@ -34,6 +34,7 @@ def gen_example_pass():
 ROOT = "{}/wwwroot".format(os.environ['SNAP'])
 DATA = os.environ['SNAP_DATA']
 SECRET_TOKEN = get_config("www-token")
+SNAP_REVISION = os.environ['SNAP_REVISION']
 
 MENU = [
     {"name": "Welcome", "url": "/", "id": "index"},
@@ -44,15 +45,18 @@ MENU = [
 
 api = responder.API(
     static_dir="{}/static".format(ROOT),
+    static_route="/static/{}".format(SNAP_REVISION),
     templates_dir="{}/templates".format(ROOT),
 )
-
-api.add_route("/static/", static=True)
 
 @api.route("/")
 async def index(req, resp):
     if req.headers.get('TOKEN') == SECRET_TOKEN:
-        resp.html = api.template('index.html', menu=MENU, current="/", page="index")
+        resp.html = api.template('index.html',
+            menu=MENU,
+            current="/",
+            page="index",
+            static_hash=SNAP_REVISION)
     else:
         resp.text = "Error: You need to provide a correct TOKEN"
 
@@ -70,7 +74,8 @@ async def page(req, resp, *, page):
             menu=MENU,
             current="/{}/".format(norm_page),
             page=norm_page,
-            example_password=gen_example_pass()
+            example_password=gen_example_pass(),
+            static_hash=SNAP_REVISION
         )
     else:
         resp.text = "404: Page not found"
