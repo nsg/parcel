@@ -91,7 +91,7 @@ async def config(req, resp):
         values = [
             "domains",
             "origin",
-            "postfix-relay-host",
+            "relay_host",
             "use-snakeoil-cert",
             "haproxy-username",
             "haproxy-password",

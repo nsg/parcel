@@ -6,32 +6,27 @@ import argparse
 import subprocess
 
 CONF_VALUES = [
-        ("domains", []),
-        ("dkim_domains", []),
-        ("postfix_domain", False),
-        ("postfix_origin", False),
-        ("postfix_relay_host", False),
-        ("use_snakeoil_cert", True),
-        ("haproxy_username", "admin"),
-        ("haproxy_password", "password"), # A good password should have been generated in the install hook
-        ("lxd_method", "remote"),
-        ("lxd_remote", ""),
-        ("lxd_password", ""),
-        ("www_token", "insecure"), # A good password should have been generated in the install hook
+        "domains",
+        "origin",
+        "relay_host",
+        "use_snakeoil_cert",
+        "haproxy_username",
+        "haproxy_password",
+        "lxd_method",
+        "lxd_remote",
+        "lxd_password",
+        "www_token",
     ]
 
-def get_conf(param, default):
+def get_conf(param):
     param = param.replace('_','-')
-    try:
-        out = subprocess.check_output(["snapctl", "get", param]).decode("utf-8")
-    except subprocess.CalledProcessError:
-        return default
+    out = subprocess.check_output(["snapctl", "get", param]).decode("utf-8")
     if out.strip():
         ret = out.strip().split(",")
         if len(ret) > 1 or isinstance(default, list):
             return ret
         return ret[0]
-    return default
+    raise Exception("No output from param {}".format(param))
 
 def noyes(s):
     if s in ["no", "false", "False"]:
@@ -42,8 +37,8 @@ def noyes(s):
 
 def get_inventory_vars():
     out = {}
-    for v,dv in CONF_VALUES:
-        out[v] = noyes(get_conf(v, dv))
+    for v in CONF_VALUES:
+        out[v] = noyes(get_conf(v))
     return out
 
 def main(argv):
