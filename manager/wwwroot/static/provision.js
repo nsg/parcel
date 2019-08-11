@@ -61,17 +61,17 @@ function render_plays(plays) {
 
         if (h.changed) {
           badge.classList.add("badge-primary");
-          badge.innerHTML = host;
+          badge.innerHTML = host + " (changed)";
         } else if (h.skipped) {
           badge.classList.add("badge-secondary");
-          badge.innerHTML = host;
+          badge.innerHTML = host + " (skipped)";
         } else if (h.failed) {
           badge.classList.add("badge-danger");
           if (h.msg) {
             writeMessage("Task '" + task.task.name + "' failed for host " + host);
             writeMessage(h.msg);
           }
-          badge.innerHTML = host;
+          badge.innerHTML = host + " (failed)";
         } else {
           badge.classList.add("badge-success");
           badge.innerHTML = host;
