@@ -37,28 +37,28 @@ function update_status() {
         csv.split("\n").forEach(line => {
             lf = line.split(",");
             if (lf[0] == "smtp" && lf[1] == "postfix") {
-                if(lf[36] == "L7OK") {
+                if(/L7OK/.test(lf[36])) {
                     update_badge(b2, "postfix-health", "Postfix responds", "primary");
                 } else {
                     update_badge(b2, "postfix-health", "Postfix is unhealthy", "danger");
                     add_message("Postfix is unhealthy, this server is unable to process both incoming and outgoing e-mails!");
                 }
             } else if (lf[0] == "smtp-tls" && lf[1] == "postfix") {
-                if(lf[36] == "L7OK") {
+                if(/L7OK/.test(lf[36])) {
                     update_badge(b2, "postfix-tls-health", "Postfix TLS responds", "primary");
                 } else {
                     update_badge(b2, "postfix-tls-health", "Postfix TLS is unhealthy", "danger");
                     add_message("Postfix TLS is unhealthy, you can't read your e-mail and some providers are unable to send messages to you!");
                 }
             } else if (lf[0] == "imap-tls" && lf[1] == "dovecot") {
-                if(lf[36] == "L7OK") {
+                if(/L7OK/.test(lf[36])) {
                     update_badge(b2, "dovecot-health", "Dovecot responds", "primary");
                 } else {
                     update_badge(b2, "dovecot-health", "Dovecot is unhealthy", "danger");
                     add_message("Dovecot is unhealthy, this server is unable to store emails!");
                 }
             } else if (lf[0] == "sieve" && lf[1] == "sieve") {
-                if(lf[36] == "L4OK") {
+                if(/L4OK/.test(lf[36])) {
                     update_badge(b2, "sieve-health", "Sieve responds", "primary");
                 } else {
                     update_badge(b2, "sieve-health", "Sieve is unhealthy", "danger");
