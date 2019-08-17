@@ -41,28 +41,28 @@ function update_status() {
                     update_badge(b2, "postfix-health", "Postfix responds", "primary");
                 } else {
                     update_badge(b2, "postfix-health", "Postfix is unhealthy", "danger");
-                    add_message("Postfix is unhealthy, this server is unable to process both incoming and outgoing e-mails!");
+                    add_message("Postfix is unhealthy, this server is unable to process both incoming and outgoing e-mails! Backend reported: " + lf[36]);
                 }
             } else if (lf[0] == "smtp-tls" && lf[1] == "postfix") {
                 if(/L7OK/.test(lf[36])) {
                     update_badge(b2, "postfix-tls-health", "Postfix TLS responds", "primary");
                 } else {
                     update_badge(b2, "postfix-tls-health", "Postfix TLS is unhealthy", "danger");
-                    add_message("Postfix TLS is unhealthy, you can't read your e-mail and some providers are unable to send messages to you!");
+                    add_message("Postfix TLS is unhealthy, you can't read your e-mail and some providers are unable to send messages to you! Backend reported: " + lf[36]);
                 }
             } else if (lf[0] == "imap-tls" && lf[1] == "dovecot") {
                 if(/L7OK/.test(lf[36])) {
                     update_badge(b2, "dovecot-health", "Dovecot responds", "primary");
                 } else {
                     update_badge(b2, "dovecot-health", "Dovecot is unhealthy", "danger");
-                    add_message("Dovecot is unhealthy, this server is unable to store emails!");
+                    add_message("Dovecot is unhealthy, this server is unable to store emails! Backend reported: " + lf[36]);
                 }
             } else if (lf[0] == "sieve" && lf[1] == "sieve") {
                 if(/L4OK/.test(lf[36])) {
                     update_badge(b2, "sieve-health", "Sieve responds", "primary");
                 } else {
                     update_badge(b2, "sieve-health", "Sieve is unhealthy", "danger");
-                    add_message("Sieve is unhealthy. The filter and e-mail rules system is down.");
+                    add_message("Sieve is unhealthy. The filter and e-mail rules system is down. Backend reported: " + lf[36]);
                 }
             }
 
