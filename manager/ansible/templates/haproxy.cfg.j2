@@ -6,6 +6,7 @@ defaults
     timeout connect 10s
     timeout client 30s
     timeout server 30s
+    retries 8
     mode tcp
 
 userlist admin_users
@@ -55,4 +56,5 @@ backend stats
 
 backend www
   mode http
+  retries 32
   server www 127.0.0.1:5042 check
