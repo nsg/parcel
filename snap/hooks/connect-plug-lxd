@@ -1,0 +1,3 @@
+#!bin/bash
+
+touch $SNAP_DATA/do-provision
