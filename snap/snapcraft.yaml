@@ -38,6 +38,7 @@ apps:
       ANSIBLE_LOCAL_TEMP: /tmp
       ANSIBLE_REMOTE_TMP: /tmp
       ANSIBLE_RETRY_FILES_ENABLED: 0
+      ANSIBLE_KEEP_REMOTE_FILES: 1
     plugs:
       - network
       - lxd
