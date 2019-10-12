@@ -15,23 +15,25 @@ CONF_VALUES = [
         ("www_token", str),
     ]
 
+def parse_json(data):
+    try:
+        ret = json.loads(data)
+    except ValueError:
+        return False
+    return ret
+
 def get_conf(param, param_type):
     param = param.replace('_','-')
     out = subprocess.check_output(["snapctl", "get", param]).decode("utf-8")
 
-    if (param_type == str):
-        return out.strip()
-    elif (param_type == bool):
-        return noyes(out.strip())
-    elif (param_type == list):
-        ret = out.strip().split(",")
-        if len(ret) > 1:
-            return ret
-        try:
-            return json.loads(ret[0])
-        except ValueError:
-            return ret
-    return ""
+    # If it's a list, parse it as JSON
+    if out[:1] == "[":
+        # Turn [foo,bar] to ["foo","bar"]
+        json_out = out.replace("[", "[\"").replace("]", "\"]").replace(",", "\",\"")
+        json_ret = parse_json(json_out)
+        if json_ret:
+            return json_ret
+    return noyes(out.strip())
 
 def noyes(s):
     if s in ["no", "false", "False"]:
