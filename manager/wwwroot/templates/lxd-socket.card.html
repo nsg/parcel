@@ -1,14 +1,5 @@
-<div class="alert alert-info">
-    The easiest and most secure way to setup LXD is to use the LXD socket,
-    you can access the LXD socket from the <a href="https://snapcraft.io/lxd">LXD snap</a>
-    that can be installed and connected to Parcel.
-</div>
 <code class="code-block">
     sudo snap install lxd
     sudo lxd init # Setup lxd
     sudo snap connect parcel:lxd lxd:lxd
 </code>
-<p>
-    If you like to setup your LXD containers on a remote system, or if you prefer to use
-    LXD installed by other means see the remote option.
-</p>
