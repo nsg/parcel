@@ -10,16 +10,14 @@ configuration.
 
 ## Requirements
 
-You need LXD, installed localy with the lxd snap (`snap install lxd`), or
-use the remote interface to connect to an existing remote (or local) LXD install.
+You need LXD, installed locally with the lxd snap (`snap install lxd`).
 
 ## Simplified overview
 
 The picture below is a simplified overview of a Parcel install. HAProxy is a
 reverse proxy that routes traffic, it's used to send traffic back and forth
 between different components. The actual mailserver software are running inside
-LXD containers, in this example all on the same server. Parcel also has a remote
-option if you like to connect to a existing remote LXD install.
+LXD containers, in this example all on the same server.
 
 ![Simplified Parcel overview](docs/images/parcel-local.png)
 
