@@ -72,7 +72,10 @@ apps:
     plugs:
       - network
 
-  provision-logs:
+  provision-log:
+    command: cat $SNAP_DATA/provision.log
+
+  provision-err:
     command: cat $SNAP_DATA/provision.log
 
   trigger-provision:
