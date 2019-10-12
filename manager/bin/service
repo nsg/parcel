@@ -6,12 +6,14 @@ filter_output() {
 }
 
 do_ansible() {
+  local extra="$1"
+
   $SNAP/bin/snapcraft-preload \
     ansible-playbook \
       -i $SNAP/ansible/inventory.yml \
       -i $SNAP/bin/inventory.py \
       --extra-vars @$SNAP_DATA/tls-snakeoil-key \
-      $SNAP/ansible/site.yml --diff
+      $SNAP/ansible/site.yml --diff $extra
 }
 
 do_provision() {
@@ -20,7 +22,7 @@ do_provision() {
 }
 
 if [[ $1 == "debug" ]]; then
-  do_ansible
+  do_ansible "-vvv"
   exit 0
 fi
 
