@@ -5,17 +5,23 @@ filter_output() {
     cat - | sed 's/^.*Pushing[^{]*//'
 }
 
-do_provision() {
+do_ansible() {
   $SNAP/bin/snapcraft-preload \
     ansible-playbook \
       -i $SNAP/ansible/inventory.yml \
       -i $SNAP/bin/inventory.py \
       --extra-vars @$SNAP_DATA/tls-snakeoil-key \
-      $SNAP/ansible/site.yml --diff \
-        2> $SNAP_DATA/provision.err \
-        | filter_output > $SNAP_DATA/provision.tmp
+      $SNAP/ansible/site.yml --diff
+}
+
+do_provision() {
+  do_ansible 2> $SNAP_DATA/provision.err | filter_output > $SNAP_DATA/provision.tmp
   mv $SNAP_DATA/provision.tmp $SNAP_DATA/provision.log
 }
+
+if [[ $1 == "debug" ]]; then
+  do_ansible
+fi
 
 N=0
 while [ 1 ]; do

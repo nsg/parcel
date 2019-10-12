@@ -31,6 +31,18 @@ apps:
       - network
       - lxd
 
+  debug-service:
+    command: bin/service debug
+    environment:
+      LXD_DIR: /var/snap/lxd/common/lxd
+      ANSIBLE_LOCAL_TEMP: /tmp
+      ANSIBLE_REMOTE_TMP: /tmp
+      ANSIBLE_STDOUT_CALLBACK: "json"
+      ANSIBLE_RETRY_FILES_ENABLED: 0
+    plugs:
+      - network
+      - lxd
+
   destroy:
     command: bin/snapcraft-preload ansible-playbook -i $SNAP/ansible/inventory.yml $SNAP/ansible/destroy.yml
     environment:
