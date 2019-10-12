@@ -112,9 +112,8 @@ parts:
     plugin: python
     source: www
     python-packages:
-      # bug: https://github.com/kennethreitz/responder/issues/337
-      - git+https://github.com/kennethreitz/responder
-      - dnspython
+      - responder==1.3.2
+      - dnspython==1.16.0
 
   ansible:
     plugin: python
