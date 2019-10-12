@@ -41,14 +41,6 @@ apps:
       - network
       - lxd
 
-  lxc:
-    command: usr/bin/lxc
-    environment:
-      LXD_DIR: /var/snap/lxd/common/lxd
-    plugs:
-      - network
-      - lxd
-
   haproxy:
     command: usr/sbin/haproxy -f $SNAP_DATA/haproxy.cfg
     daemon: simple
