@@ -21,6 +21,7 @@ do_provision() {
 
 if [[ $1 == "debug" ]]; then
   do_ansible
+  exit 0
 fi
 
 N=0
