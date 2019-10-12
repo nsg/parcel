@@ -21,6 +21,14 @@ do_provision() {
   mv $SNAP_DATA/provision.tmp $SNAP_DATA/provision.log
 }
 
+regent_client_cert() {
+  $SNAP/usr/bin/lxc remote add dummy-host-that-will-fail 2>/dev/null || :
+}
+
+if [ ! -e $HOME/.config/lxc/client.crt ]; then
+  regent_client_cert
+fi
+
 if [[ $1 == "debug" ]]; then
   do_ansible "-vvv"
   exit 0
