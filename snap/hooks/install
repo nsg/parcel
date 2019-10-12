@@ -34,8 +34,8 @@ EOF
 touch $SNAP_DATA/provision.log
 
 # Generate default config values
-snapctl set domains=[]
-snapctl set origin=
+snapctl set domains=["example.com"]
+snapctl set origin=mymailserver.example.com
 snapctl set haproxy-username=admin
 snapctl set haproxy-password=$HAPROXY_PASSWORD
 snapctl set www-token=$WWW_TOKEN
