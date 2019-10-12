@@ -4,8 +4,7 @@
   hosts: localhost
   gather_facts: no
   tasks:
-
-    - name: Create containers | LXD Socket
+    - name: Create containers
       lxd_container:
         name: "{{ item }}"
         state: started
@@ -21,26 +20,6 @@
         wait_for_ipv4_addresses: true
         timeout: 600
       loop: "{{ groups['containers'] }}"
-      when: "lxd_method == 'socket'"
-
-    - name: Create containers | LXD Remote
-      lxd_container:
-        name: "{{ item }}"
-        state: started
-        snap_url: None # This is needed, bug!
-        url: "{{ lxd_remote }}"
-        trust_password: "{{ lxd_password }}"
-        source:
-          type: image
-          mode: pull
-          server: https://images.linuxcontainers.org
-          protocol: lxd
-          alias: ubuntu/xenial/amd64
-        profiles: ["default"]
-        wait_for_ipv4_addresses: true
-        timeout: 600
-      loop: "{{ groups['containers'] }}"
-      when: "lxd_method == 'remote'"
 
 - name: Setup OpenDKIM container
   hosts: opendkim

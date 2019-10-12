@@ -22,13 +22,6 @@
               }}
 
               {{ accordion.card(
-                'lxd-remote',
-                'LXD Configuration - Remote Host / Non-snap LXD',
-                args={'example_password': example_password},
-                update_fields='lxd-remote,lxd-password')
-              }}
-
-              {{ accordion.card(
                 'server-domains',
                 'Domains & Server Origin',
                 update_fields='origin,domains')

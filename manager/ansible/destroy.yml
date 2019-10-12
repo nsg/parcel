@@ -4,22 +4,10 @@
   hosts: localhost
   gather_facts: no
   tasks:
-
-    - name: Destroy containers | LXD Socket
+    - name: Destroy containers
       lxd_container:
         name: "{{ item }}"
         state: absent
         snap_url: None # This is needed, bug!
         url: unix:/var/snap/lxd/common/lxd/unix.socket
       loop: "{{ groups['containers'] }}"
-      when: "lxd_method == 'socket'"
-
-    - name: Destroy containers | LXD Remote
-      lxd_container:
-        name: "{{ item }}"
-        state: absent
-        snap_url: None # This is needed, bug!
-        url: "{{ lxd_remote }}"
-        trust_password: "{{ lxd_password }}"
-      loop: "{{ groups['containers'] }}"
-      when: "lxd_method == 'remote'"

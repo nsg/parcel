@@ -12,9 +12,6 @@ CONF_VALUES = [
         ("use_snakeoil_cert", bool),
         ("haproxy_username", str),
         ("haproxy_password", str),
-        ("lxd_method", str),
-        ("lxd_remote", str),
-        ("lxd_password", str),
         ("www_token", str),
     ]
 
