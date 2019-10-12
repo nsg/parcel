@@ -32,7 +32,7 @@ apps:
       - lxd
 
   debug-service:
-    command: bin/service debug
+    command: bin/service debug-ansible
     environment:
       LXD_DIR: /var/snap/lxd/common/lxd
       ANSIBLE_LOCAL_TEMP: /tmp
@@ -42,6 +42,13 @@ apps:
       ANSIBLE_DEBUG: 1
     plugs:
       - network
+      - lxd
+
+  debug-lxd:
+    command: bin/service debug-lxd
+    environment:
+      LXD_DIR: /var/snap/lxd/common/lxd
+    plugs:
       - lxd
 
   destroy:

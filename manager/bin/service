@@ -29,8 +29,16 @@ if [ ! -e $HOME/.config/lxc/client.crt ]; then
   regent_client_cert
 fi
 
-if [[ $1 == "debug" ]]; then
+if [[ $1 == "debug-ansible" ]]; then
   do_ansible "-vvv"
+  exit 0
+elif [[ $1 == "debug-lxd" ]]; then
+  if [ -r /var/snap/lxd/common/lxd/unix.socket ]; then
+    echo "LXD snap permissions: OK"
+  else
+    echo "LXD snap permissions: FAILURE"
+    echo "Did you run \"sudo snap connect parcel:lxd lxd:lxd\"?"
+  fi
   exit 0
 fi
 
