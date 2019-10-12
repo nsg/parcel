@@ -118,7 +118,7 @@ parts:
   ansible:
     plugin: python
     python-packages:
-      - ansible==2.8.0
+      - ansible==2.8.5
     stage-packages:
       - lxd
       - libatm1
