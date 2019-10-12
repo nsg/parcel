@@ -76,7 +76,7 @@ apps:
     command: cat $SNAP_DATA/provision.log
 
   provision-err:
-    command: cat $SNAP_DATA/provision.log
+    command: cat $SNAP_DATA/provision.err
 
   trigger-provision:
     command: touch $SNAP_DATA/do-provision
