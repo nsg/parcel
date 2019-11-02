@@ -5,16 +5,22 @@ import subprocess
 import pathlib
 import responder
 import json
+import yaml
 import socket
 import dns.resolver
+import requests
 
 def get_config(val):
     stdout, stderr = subprocess.Popen(["snapctl", "get", val],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT).communicate()
-    return stdout.decode('utf-8').strip()
+    o = stdout.decode('utf-8').strip()
+    return yaml.load(o)
 
 def set_config(key, val):
+    if ',' in val:
+        val = "[{}]".format(val)
+
     stdout, stderr = subprocess.Popen(["snapctl", "set", "{}=\"{}\"".format(key, val)],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT).communicate()
@@ -91,7 +97,7 @@ async def config(req, resp):
         values = [
             "domains",
             "origin",
-            "relay_host",
+            "relay-host",
             "use-snakeoil-cert",
             "haproxy-username",
             "haproxy-password",
@@ -163,11 +169,11 @@ async def validate(req, resp):
                 try:
                     for x in dns.resolver.query(d, 'MX'):
                         if not is_resolve(x.exchange.to_text()):
-                            msg.append("The MX record points to {}, lookup failed!".format(x.exchange.to_text()))
+                            msg.append(f"The MX record for {d} points to {x.exchange.to_text()}, lookup failed!")
                 except dns.resolver.NoAnswer:
-                    msg.append("No MX records found for {}. You need to add one or more MX records to the domain.".format(d))
+                    msg.append(f"No MX records found for {d}. You need to add one or more MX records to the domain.")
                 except dns.resolver.NXDOMAIN:
-                    msg.append("Lookup of {} failed, domain not found.".format(d))
+                    msg.append(f"Lookup of {d} failed, domain not found.")
 
         resp.media = msg
 
