@@ -4,3 +4,4 @@
 /stage
 /snap/.snapcraft/
 /.env
+/.vscode
