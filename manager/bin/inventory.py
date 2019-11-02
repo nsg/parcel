@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+import yaml
 import sys
 import argparse
 import subprocess
@@ -15,6 +16,10 @@ CONF_VALUES = [
         "www_token"
     ]
 
+ALWAY_A_LIST = [
+        "domains"
+    ]
+
 def parse_json(data):
     try:
         ret = json.loads(data)
@@ -25,14 +30,12 @@ def parse_json(data):
 def get_conf(param):
     param = param.replace('_','-')
     out = subprocess.check_output(["snapctl", "get", param]).decode("utf-8")
+    parsed = yaml.load(out)
 
-    # If it's a list, parse it as JSON
-    if out[:1] == "[":
-        # Turn [foo,bar] to ["foo","bar"]
-        json_out = out.replace("[", "[\"").replace("]", "\"]").replace(",", "\",\"")
-        json_ret = parse_json(json_out)
-        if json_ret:
-            return json_ret
+    if isinstance(parsed, list):
+        return parsed
+    elif param in ALWAY_A_LIST:
+        return [out.strip()]
     return noyes(out.strip())
 
 def noyes(s):
