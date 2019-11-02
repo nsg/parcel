@@ -6,13 +6,13 @@ import argparse
 import subprocess
 
 CONF_VALUES = [
-        ("domains", list),
-        ("origin", str),
-        ("relay_host", bool),
-        ("use_snakeoil_cert", bool),
-        ("haproxy_username", str),
-        ("haproxy_password", str),
-        ("www_token", str),
+        "domains",
+        "origin",
+        "relay_host",
+        "use_snakeoil_cert",
+        "haproxy_username",
+        "haproxy_password",
+        "www_token"
     ]
 
 def parse_json(data):
@@ -22,7 +22,7 @@ def parse_json(data):
         return False
     return ret
 
-def get_conf(param, param_type):
+def get_conf(param):
     param = param.replace('_','-')
     out = subprocess.check_output(["snapctl", "get", param]).decode("utf-8")
 
@@ -44,8 +44,8 @@ def noyes(s):
 
 def get_inventory_vars():
     out = {}
-    for v,t in CONF_VALUES:
-        out[v] = get_conf(v, t)
+    for v in CONF_VALUES:
+        out[v] = get_conf(v)
     return out
 
 def main(argv):
