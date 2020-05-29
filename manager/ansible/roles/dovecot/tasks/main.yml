@@ -16,12 +16,6 @@
     - dovecot-sieve
     - dovecot-managesieved
 
-- name: Install various packages
-  apt:
-    name: "{{ item }}"
-  loop:
-    - jq
-
 - name: Setup vmail group
   group:
     name: vmail
