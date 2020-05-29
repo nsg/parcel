@@ -28,15 +28,6 @@ def set_config(key, val):
         return False
     return True
 
-def gen_example_pass():
-    letters = string.ascii_lowercase \
-        + string.ascii_uppercase \
-        + "0123456789_-"
-    p = []
-    for _ in range(16):
-        p.append(random.choice(letters))
-    return ''.join(p)
-
 ROOT = "{}/wwwroot".format(os.environ['SNAP'])
 DATA = os.environ['SNAP_DATA']
 SECRET_TOKEN = get_config("www-token")
@@ -80,7 +71,6 @@ async def page(req, resp, *, page):
             menu=MENU,
             current="/{}/".format(norm_page),
             page=norm_page,
-            example_password=gen_example_pass(),
             static_hash=SNAP_REVISION
         )
     else:
