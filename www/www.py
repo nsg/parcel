@@ -37,7 +37,6 @@ MENU = [
     {"name": "Welcome", "url": "/", "id": "index"},
     {"name": "Configure", "url": "/configure/", "id": "configure"},
     {"name": "Status", "url": "/status/", "id": "status"},
-    {"name": "Provision", "url": "/provision/", "id": "provision"},
 ]
 
 api = responder.API(
