@@ -39,6 +39,8 @@ MENU = [
     {"name": "Status", "url": "/status/", "id": "status"},
 ]
 
+VALID_PAGES = [x['id'] for x in MENU] + ["provision"]
+
 api = responder.API(
     static_dir="{}/static".format(ROOT),
     static_route="/static/{}".format(SNAP_REVISION),
@@ -63,8 +65,7 @@ async def page(req, resp, *, page):
         return
 
     norm_page = page.replace("/", "")
-    valid_pages = [x['id'] for x in MENU]
-    if norm_page in valid_pages:
+    if norm_page in VALID_PAGES:
         resp.html = api.template(
             "{}.html".format(norm_page),
             menu=MENU,
