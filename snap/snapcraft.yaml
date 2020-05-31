@@ -81,13 +81,13 @@ apps:
       - network
 
   provision-log:
-    command: cat $SNAP_DATA/provision.log
+    command: /bin/cat $SNAP_DATA/provision.log
 
   provision-err:
-    command: cat $SNAP_DATA/provision.err
+    command: /bin/cat $SNAP_DATA/provision.err
 
   trigger-provision:
-    command: touch $SNAP_DATA/do-provision
+    command: /usr/bin/touch $SNAP_DATA/do-provision
 
 parts:
   snapcraft-preload:
