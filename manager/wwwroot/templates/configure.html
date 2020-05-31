@@ -22,6 +22,12 @@
               }}
 
               {{ accordion.card(
+                'auth',
+                'Auth & Tokens',
+                update_fields='haproxy-password,haproxy-username')
+              }}
+
+              {{ accordion.card(
                 'server-domains',
                 'Domains & Server Origin',
                 update_fields='origin,domains')
