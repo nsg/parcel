@@ -1,10 +1,10 @@
 #!/bin/bash
 
-IPV4=$(curl -s 'https://api.ipify.org?format=text')
-IPV6=$(curl -s 'https://api6.ipify.org?format=text')
-
 USERNAME="$(snapctl get haproxy-username)"
 PASSWORD="$(snapctl get haproxy-password)"
+
+BOLD=$(tput smso)
+OFFBOLD=$(tput rmso)
 
 if [ -e $SNAP_DATA/do-provision ]; then
   echo "The provision tasks on the server is running, please give"
@@ -14,14 +14,7 @@ fi
 
 echo "Instructions and configurations is found in the web interface."
 echo "Visit it on port 8080 to configure it, the username and password"
-echo "is set to ${USERNAME:-admin} and ${PASSWORD:-password}."
+echo "is set to ${BOLD}${USERNAME:-admin}${OFFBOLD} and ${BOLD}${PASSWORD:-password}${OFFBOLD}"
 echo
 echo "If you prefer the cli, type \"sudo snap get parcel\" to list"
 echo "all options and then do a \"sudo snap set parcel foo=bar\"."
-echo
-echo " - http://$IPV4:8080"
-if [[ $IPV4 != $IPV6 ]]; then
-  echo " - http://$IPv6:8080"
-fi
-echo " - http://127.0.0.1:8080"
-echo " - http://$(hostname -f):8080"
