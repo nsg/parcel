@@ -20,3 +20,10 @@ code {
 .button-saving {
     opacity: 0.5;
 }
+
+.card-box {
+    border: 1px solid #dee2e6 !important;
+    padding: 1em;
+    margin-bottom: 1em;
+    background: #fafafa;
+}
