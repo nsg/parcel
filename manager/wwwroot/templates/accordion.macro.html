@@ -9,7 +9,7 @@
     </div>
     <div id="col-{{ name }}" class="collapse" aria-labelledby="head-{{ name }}" data-parent="#accordionConfig">
     <div class="card-body">
-        {% include name + ".card.html" %}
+        {% include "card/" + name + ".html" %}
         {% if not hide_save %}
         <div class="form-error-message alert alert-danger" style="display: none;"></div>
         <div class="form-group">
