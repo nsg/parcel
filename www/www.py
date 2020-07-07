@@ -10,6 +10,9 @@ import socket
 import dns.resolver
 import requests
 
+dns.resolver.default_resolver = dns.resolver.Resolver(configure=False)
+dns.resolver.default_resolver.nameservers = ['8.8.8.8']
+
 def get_config(val):
     stdout, stderr = subprocess.Popen(["snapctl", "get", val],
             stdout=subprocess.PIPE,
