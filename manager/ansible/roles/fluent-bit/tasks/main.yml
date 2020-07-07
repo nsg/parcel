@@ -1,0 +1,37 @@
+---
+
+- name: Add fluent-bit repo key
+  apt_key:
+    url: https://packages.fluentbit.io/fluentbit.key
+
+- name: Add fluent-bit repo
+  apt_repository:
+    repo: deb https://packages.fluentbit.io/ubuntu/xenial xenial main
+    update_cache: yes
+
+- name: Install fluent-bit
+  apt:
+    name: td-agent-bit
+
+- name: Deploy fluent-bit client configuration
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/td-agent-bit/{{ item }}"
+  notify: restart-td-agent-bit
+  loop:
+    - td-agent-bit.conf
+    - local_output.conf
+
+- name: Deploy fluent-bit specific configuration
+  template:
+    src: "install_{{ fluent_bit_install }}.conf.j2"
+    dest: "/etc/td-agent-bit/local_{{ fluent_bit_install }}.conf"
+  notify: restart-td-agent-bit
+  when: fluent_bit_install is defined
+
+- name: Configure fluent-bit service
+  systemd:
+    name: td-agent-bit
+    state: started
+    enabled: yes
+

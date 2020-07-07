@@ -45,6 +45,7 @@ frontend www
   http-request add-header TOKEN {{ www_token }}
   http-request auth realm mailserver unless { http_auth(admin_users) }
   use_backend stats if { path -i -m beg /stats/ }
+  use_backend fluentd if { path -i -m beg /fluentd/ }
   default_backend www
 
 backend stats
@@ -58,3 +59,11 @@ backend www
   mode http
   retries 32
   server www 127.0.0.1:5042 check
+
+{% if 'ansible_default_ipv4' in hostvars['fluentd'] %}
+backend fluentd
+  mode http
+  retries 8
+  http-request set-path "%[path,regsub(^/fluentd/,/)]"
+  server fluentd {{ hostvars['fluentd']['ansible_default_ipv4']['address'] }}:80 check
+{% endif %}

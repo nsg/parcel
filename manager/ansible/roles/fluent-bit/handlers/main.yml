@@ -1,0 +1,11 @@
+---
+
+- name: restart-td-agent-bit
+  systemd:
+      name: td-agent-bit
+      state: restarted
+
+- name: restart-nginx
+  systemd:
+      name: td-nginx
+      state: restarted

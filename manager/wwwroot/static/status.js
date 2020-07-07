@@ -68,6 +68,22 @@ function update_status() {
 
         });
     });
+
+    apicall("/fluentd/", function(files) {
+        status_logs = document.getElementById("status-logs");
+        files.forEach(file => {
+
+            if(/\.log$/.test(file.name)) {
+                $.get("/fluentd/" + file.name, function(logs) {
+                    pre = document.createElement("pre");
+                    pre.innerHTML = logs.split("\n").slice(-1024).reverse().join("\n");
+                    status_logs.innerHTML = '';
+                    status_logs.appendChild(pre);
+                });
+            }
+        });
+    });
+
 }
 
 function add_message(str) {

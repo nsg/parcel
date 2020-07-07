@@ -1,0 +1,46 @@
+---
+
+- name: Add fluentd repo key
+  apt_key:
+    url: https://packages.treasuredata.com/GPG-KEY-td-agent
+
+- name: Add fluentd repo
+  apt_repository:
+    repo: deb http://packages.treasuredata.com/3/ubuntu/xenial/ xenial contrib
+    update_cache: yes
+
+- name: Install fluent-bit
+  apt:
+    name: td-agent
+
+- name: Install nginx
+  apt:
+    name: nginx
+
+- name: Remove default nginx index packages
+  file:
+    path: /var/www/html/index.nginx-debian.html
+    state: absent
+
+- name: Give fluent-bit permissions to write to www root
+  file:
+    path: /var/www/html/
+    owner: td-agent
+
+- name: Deploy nginx site config
+  template:
+    src: nginx-default.j2
+    dest: /etc/nginx/sites-available/default
+  notify: restart-nginx
+    
+- name: Deploy fluentd configuration
+  template:
+    src: td-agent.conf.j2
+    dest: /etc/td-agent/td-agent.conf
+  notify: restart-td-agent
+
+- name: Configure fluentd service
+  systemd:
+    name: td-agent
+    state: started
+    enabled: yes

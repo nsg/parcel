@@ -21,6 +21,13 @@
         timeout: 600
       loop: "{{ groups['containers'] }}"
 
+- name: Setup fluentd container
+  hosts: fluentd
+  pre_tasks:
+    - include_tasks: container-facts.yml
+  roles:
+    - role: fluentd
+
 - name: Setup OpenDKIM container
   hosts: opendkim
   roles:
@@ -32,6 +39,8 @@
     - include_tasks: container-facts.yml
   roles:
     - postfix
+    - role: fluent-bit
+      fluent_bit_install: postfix
 
 - name: Setup Dovecot container
   hosts: dovecot

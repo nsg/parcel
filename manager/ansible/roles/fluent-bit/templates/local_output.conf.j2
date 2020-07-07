@@ -1,0 +1,5 @@
+[OUTPUT]
+    Name          forward
+    Match         *
+    Host          {{ hostvars['fluentd']['ansible_default_ipv4']['address'] }}
+    Port          24284
