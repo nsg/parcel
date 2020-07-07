@@ -48,5 +48,7 @@
     - include_tasks: container-facts.yml
   roles:
     - dovecot
+    - role: fluent-bit
+      fluent_bit_install: dovecot
 
 - import_playbook: haproxy.yml

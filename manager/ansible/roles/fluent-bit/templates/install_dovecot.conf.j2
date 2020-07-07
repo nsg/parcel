@@ -1,0 +1,14 @@
+[INPUT]
+    Name        tail
+    Path        /var/log/mail.err
+    Tag         dovecot.mailerr
+
+[INPUT]
+    Name        tail
+    Path        /var/log/mail.log
+    Tag         dovecot.maillog
+
+[FILTER]
+    Name        grep
+    Match       dovecot.maillog
+    Exclude     log (imap|managesieve)-login: Disconnected.*rip={{ ansible_default_ipv4['gateway']|replace('.','\.') }}

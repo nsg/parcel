@@ -2,3 +2,9 @@
     Name        tail
     Path        /var/log/mail.log
     Tag         postfix.maillog
+
+[FILTER]
+    Name        grep
+    Match       postfix.maillog
+    Exclude     log \[{{ ansible_default_ipv4['gateway']|replace('.','\.') }}\]
+    Exclude     log warning: hostname .* does not resolve to address {{ ansible_default_ipv4['gateway']|replace('.','\.') }}
