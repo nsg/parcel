@@ -33,7 +33,7 @@ function save_data(save_button, values_str) {
             save_button.classList.remove("btn-primary");
             save_button.classList.add("btn-danger");
             save_button.innerHTML = "Invalid configuration, not saved!"
-            msg.forEach(emsg => {
+            msg[1].forEach(emsg => {
                 append_err(err_div, emsg)
             });
             abort = true;
