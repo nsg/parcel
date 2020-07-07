@@ -1,36 +1,34 @@
 # Parcel
 
-[![Snap Status](https://build.snapcraft.io/badge/nsg/snap-mailserver.svg)](https://build.snapcraft.io/user/nsg/snap-mailserver)
+## About
 
-## About this snap
+Running an mail server can be daunting, here are a bunch of different things to keep track of. You need to choose what software to use. Figure out how to configure it (properly) and how to maintain it.
 
-This snap will setup all you need to run a e-mail server of your own. This
-snap will provision several LXD containers containing all software and
-configuration.
+If you are a seasoned sysadmin that prefer to tweak your systems to your likings this may not be for you. If you like a quick and easy way to run a fully functional e-mail server this is exactly what you are looking for!
+
+### Configuration and software selection
+
+E-mail is old and there are thousands of different ways to manage a mail server. To keep the scope somewhat limited the software selection is restricted to what this project considers "the best" software for this task. The same idea is applied to the configuration.
+
+## Technology
+
+Parcel is actually a configuration and provision tool that provisions the actual mail servers inside LXD containers. You can change all configuration via a friendly web-based UI. If you prefer the CLI all options can be changed from the shell.
 
 ## Requirements
 
-You need LXD, installed locally with the lxd snap (`snap install lxd`).
-
-## Simplified overview
-
-The picture below is a simplified overview of a Parcel install. HAProxy is a
-reverse proxy that routes traffic, it's used to send traffic back and forth
-between different components. The actual mailserver software are running inside
-LXD containers, in this example all on the same server.
-
-![Simplified Parcel overview](docs/images/parcel-local.png)
+* A Linux-server open to the internet (that can run snapd)
+* The LXD snap installed locally
+* A domain (like example.com or mail.example.com)
 
 ## Install
 
-Install the snap on a public server, preferably not on a home server due the
-fact that most home connects are blacklisted due to spam.
+Install the snap on a public server, preferably not on a home server due the fact that most home connections are blacklisted due to spam.
 
 ```
 $ snap install parcel
 ```
 
-The above command will install the stable release, this are the available channels. Install them with `snap install --candidate parcel`.
+The above command will install the stable release. If you like to install the candidate channel run `snap install --candidate parcel`.
 
 | Channel | Description |
 | ------- | ----------- |
