@@ -75,10 +75,13 @@ function update_status() {
 
             if(/\.log$/.test(file.name)) {
                 $.get("/fluentd/" + file.name, function(logs) {
-                    pre = document.createElement("pre");
-                    pre.innerHTML = logs.split("\n").slice(-1024).reverse().join("\n");
+                    var log_list = logs.split("\n").slice(-1024).reverse();
                     status_logs.innerHTML = '';
-                    status_logs.appendChild(pre);
+                    log_list.forEach(el => {
+                        p = document.createElement("p");
+                        p.innerHTML = el;
+                        status_logs.appendChild(p);
+                    });
                 });
             }
         });

@@ -27,3 +27,12 @@ code {
     margin-bottom: 1em;
     background: #fafafa;
 }
+
+#status-logs p {
+    margin: 0.2em;
+    padding: 0.2em;
+}
+
+#status-logs p:nth-child(even) {
+    background-color: #eee;
+}
