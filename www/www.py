@@ -152,7 +152,8 @@ async def validate(req, resp):
 
         if field == "origin":
             if not is_resolve(data):
-                msg.append("Lookup of {} failed".format(data))
+                msg.append(f"It looks like {data} is not an valid origin. DNS lookup failed. "
+                            "Please fix your DNS records and/or choose an valid origin.")
 
         elif field == "domains":
             for d in data.split(","):

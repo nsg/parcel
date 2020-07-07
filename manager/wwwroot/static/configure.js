@@ -93,6 +93,7 @@ function validate(field, data) {
             if (data.match(/[, ]/)) msg.push("Origin must be a valid single domain/FQDN.");
             break;
         case "domains":
+            if (data.match(/example\.com/)) msg.push("Please use a real domain, example.com is for examples.")
             if (data.match(/[ ]/)) msg.push("Spaces are not allowed in domains.")
             if (data.match(/[,]$/)) msg.push("Remove last \",\" from domains.")
             break;
