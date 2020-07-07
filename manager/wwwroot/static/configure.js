@@ -33,8 +33,9 @@ function save_data(save_button, values_str) {
             save_button.classList.remove("btn-primary");
             save_button.classList.add("btn-danger");
             save_button.innerHTML = "Invalid configuration, not saved!"
-            let errmsg = save_button.parentNode.parentNode.getElementsByClassName("form-error-message")
-            append_err(errmsg[0], msg[1])
+            msg.forEach(emsg => {
+                append_err(err_div, emsg)
+            });
             abort = true;
         }
     });
@@ -99,7 +100,7 @@ function validate(field, data) {
             break;
     }
 
-    return [msg.length == 0, msg.join("; ")];
+    return [msg.length == 0, msg];
 }
 
 function update_card(values) {
