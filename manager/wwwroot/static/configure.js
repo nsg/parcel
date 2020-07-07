@@ -17,6 +17,10 @@ function save_data(save_button, values_str) {
     var values = values_str.split(",");
     var abort = false;
 
+    let err_div = save_button.parentNode.parentNode.getElementsByClassName("form-error-message")[0]
+    err_div.style.display = "none";
+    err_div.innerHTML = "";
+
     values.forEach(element => {
         let msg = validate(element, document.getElementById(element).value);
         if (msg[0]) {
@@ -41,9 +45,6 @@ function save_data(save_button, values_str) {
 
     save_button.classList.remove("btn-danger");
     save_button.classList.add("btn-primary");
-    let err_div = save_button.parentNode.parentNode.getElementsByClassName("form-error-message")[0]
-    err_div.style.display = "none";
-    err_div.innerHTML = "";
 
     var update = []
     values.forEach(element => {
