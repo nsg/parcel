@@ -32,6 +32,8 @@
   hosts: opendkim
   roles:
     - opendkim
+    - role: fluent-bit
+      fluent_bit_install: opendkim
 
 - name: Setup Postfix container
   hosts: postfix
