@@ -5,6 +5,11 @@ if [ ! -e $SNAP_DATA/tls-snakeoil-key ]; then
 	tr -cd '[:alnum:]' < /dev/urandom | fold -w128 | head -n1 >> $SNAP_DATA/tls-snakeoil-key
 fi
 
+# Fix permission on common, Ansible will create less restrictive subfolders inside.
+mkdir -p $SNAP_COMMON/mail
+chmod 0777 $SNAP_COMMON/mail
+
+# Trigger a provision
 touch $SNAP_DATA/do-provision
 
 # www loads a few variables on start

@@ -13,11 +13,13 @@ CONF_VALUES = [
         "use_snakeoil_cert",
         "haproxy_username",
         "haproxy_password",
-        "www_token"
+        "www_token",
+        "email_accounts"
     ]
 
 ALWAY_A_LIST = [
-        "domains"
+        "domains",
+        "email_accounts"
     ]
 
 def parse_json(data):

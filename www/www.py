@@ -96,6 +96,7 @@ async def config(req, resp):
             "haproxy-password",
             "lxd-remote",
             "lxd-password",
+            "email-accounts",
         ]
         config = {}
         for val in values:
@@ -168,6 +169,12 @@ async def validate(req, resp):
                     msg.append(f"No MX records found for {d}. You need to add one or more MX records to the domain.")
                 except dns.resolver.NXDOMAIN:
                     msg.append(f"Lookup of {d} failed, domain not found.")
+
+        elif field == "email-accounts":
+            for acc in data.split(","):
+                domain = acc.split(":")[0].split("@")[1]
+                if domain not in get_config("domains"):
+                    msg.append(f"{domain} is not configured under \"Domains\" in the \"Domains & Server Origin\" section.")
 
         resp.media = msg
 

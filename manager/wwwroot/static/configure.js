@@ -98,6 +98,9 @@ function validate(field, data) {
             if (data.match(/[ ]/)) msg.push("Spaces are not allowed in domains.")
             if (data.match(/[,]$/)) msg.push("Remove last \",\" from domains.")
             break;
+        case "email-accounts":
+            if (!data.match(/^([^:,@]+@[^:,@]+:[^:,@]+,?)+$/)) msg.push("Incorrenct format!");
+            break;
     }
 
     return [msg.length == 0, msg];

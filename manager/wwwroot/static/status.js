@@ -34,6 +34,8 @@ function update_status() {
     $.get("/stats/;csv", function(csv) {
         b2 = document.getElementById("status-service");
 
+        clear_message();
+
         csv.split("\n").forEach(line => {
             lf = line.split(",");
             if (lf[0] == "smtp" && lf[1] == "postfix") {
@@ -98,6 +100,10 @@ function update_status() {
 function add_message(str) {
     msg = document.getElementById("status-service-messages");
     msg.innerHTML = str + "<br>" + msg.innerHTML;
+}
+
+function clear_message() {
+    document.getElementById("status-service-messages").innerHTML = '';
 }
 
 function update_badge(obj, badge_id, badge_name, badge_type) {

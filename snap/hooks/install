@@ -41,3 +41,4 @@ snapctl set haproxy-password=$HAPROXY_PASSWORD
 snapctl set www-token=$WWW_TOKEN
 snapctl set use-snakeoil-cert=true
 snapctl set relay-host=false
+snapctl set email-accounts=[]

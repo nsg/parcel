@@ -47,3 +47,22 @@
     owner: vmail
     group: vmail
   loop: "{{ domains }}"
+
+- name: Get vmail uid
+  command: id -u vmail
+  register: vmail_uid
+  changed_when: False
+  check_mode: no
+
+- name: Get vmail gid
+  command: id -g vmail
+  register: vmail_gid
+  changed_when: False
+  check_mode: no
+
+- name: Deploy userdb
+  template:
+    src: userdb.j2
+    dest: /etc/dovecot/userdb
+    mode: 0644
+  notify: restart dovecot

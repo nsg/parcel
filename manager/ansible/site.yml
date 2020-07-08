@@ -17,6 +17,11 @@
           protocol: simplestreams
           alias: ubuntu/xenial/amd64
         profiles: ["default"]
+        devices:
+          storage:
+            path: /storage/common/
+            source: "{{ lookup('env', 'SNAP_COMMON') }}"
+            type: disk
         wait_for_ipv4_addresses: true
         timeout: 600
       loop: "{{ groups['containers'] }}"

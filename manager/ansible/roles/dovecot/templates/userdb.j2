@@ -1,0 +1,5 @@
+{% for account in email_accounts if email_accounts is defined %}
+{%- set a, p = account.split(":") -%}
+{%- set u, d = a.split("@") -%}
+{{ a }}:{plain}{{ p }}:{{ vmail_uid.stdout }}:{{ vmail_gid.stdout }}::/storage/common/mail/{{ d }}/{{ u }}::
+{% endfor %}
