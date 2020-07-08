@@ -19,7 +19,7 @@ CONF_VALUES = [
 
 ALWAY_A_LIST = [
         "domains",
-        "email_accounts"
+        "email-accounts"
     ]
 
 def parse_json(data):
@@ -36,7 +36,7 @@ def get_conf(param):
 
     if isinstance(parsed, list):
         return parsed
-    elif param in ALWAY_A_LIST.replace('_','-'):
+    elif param in ALWAY_A_LIST:
         return [out.strip()]
     return noyes(out.strip())
 
