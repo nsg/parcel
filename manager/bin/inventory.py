@@ -36,7 +36,7 @@ def get_conf(param):
 
     if isinstance(parsed, list):
         return parsed
-    elif param in ALWAY_A_LIST:
+    elif param in ALWAY_A_LIST.replace('_','-'):
         return [out.strip()]
     return noyes(out.strip())
 
