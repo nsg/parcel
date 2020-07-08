@@ -7,8 +7,7 @@
 <match **>
   @Type file
   Path /var/www/html/forward
-  Format template
-  Template {log}
+  Format json
   Time_slice_wait 24h
   Buffer_path /var/www/html/forward.*
   Append true
