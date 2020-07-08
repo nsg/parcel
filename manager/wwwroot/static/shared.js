@@ -34,14 +34,14 @@ function update_ansible_status_call() {
                 unreachable
             } = ret.data.stats[container];
 
-            if (failures) {
+            if (ret.running) {
+                navbar_prov_status("Applying configuration");
+            } else if (failures) {
                 navbar_prov_status(container + " failed, see Status.");
+            } else {
+                navbar_prov_status("");
             }
         });
-
-        if (ret.running) {
-            navbar_prov_status("Applying configuration");
-        }
 
     });
 }
