@@ -15,6 +15,7 @@ window.onload = function() {
 
     if (ret.running) {
       writeMessage("Provision is running, status will update when it's completed.");
+      navbar_prov_status("Applying configuration");
     }
 
     if (Object.keys(ret.data).length > 0) {

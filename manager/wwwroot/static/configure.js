@@ -1,6 +1,7 @@
 
 window.onload = function() {
-    fix_code_blocks()
+    fix_code_blocks();
+    update_ansible_status_call();
 };  
 
 function append_err(obj, err) {

@@ -21,7 +21,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
+          <div class="navbar-nav mr-auto">
             {% for m in menu %}
                 {% if current == m.url %}
                     <a class="nav-item nav-link active" href="{{ m.url }}" id="menu-{{ m.id }}">{{ m.name }}</a>
@@ -30,5 +30,8 @@
                 {% endif %}
             {% endfor %}
           </div>
+          <span class="navbar-text text-warning">
+            <span id="navbar-prov-status"></span>
+          </span>
         </div>
       </nav>

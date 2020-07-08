@@ -8,12 +8,6 @@ function update_status() {
     apicall("/api/ansible", function(ret) {
         b1 = document.getElementById("status-provision");
 
-        if (ret.running) {
-            update_badge(b1, "ansible", "Applying configuration", "primary");
-        } else {
-            update_badge(b1, "ansible", "Provision idle", "secondary");
-        }
-
         Object.keys(ret.data.stats).forEach(function(container) {
             const {
                 changed,
@@ -25,10 +19,19 @@ function update_status() {
 
             if (failures) {
                 update_badge(b1, "ansible-" + container, container, "danger");
+                navbar_prov_status(container + " failed, see Status.");
             } else {
                 update_badge(b1, "ansible-" + container, container + " success", "primary");
             }
         });
+
+        if (ret.running) {
+            update_badge(b1, "ansible", "Applying configuration", "primary");
+            navbar_prov_status("Applying configuration");
+        } else {
+            update_badge(b1, "ansible", "Provision idle", "secondary");
+        }
+
     });
 
     $.get("/stats/;csv", function(csv) {
