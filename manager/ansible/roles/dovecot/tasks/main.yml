@@ -33,16 +33,9 @@
     dest: /etc/dovecot/dovecot.conf
   notify: restart dovecot
 
-- name: Setup maildir for domains (1/2)
+- name: Setup maildir for domains
   file:
-    path: /var/mail/vhosts
-    state: directory
-    owner: vmail
-    group: vmail
-
-- name: Setup maildir for domains (2/2)
-  file:
-    path: "/var/mail/vhosts/{{ item }}"
+    path: "{{ mail_location }}/{{ item }}"
     state: directory
     owner: vmail
     group: vmail

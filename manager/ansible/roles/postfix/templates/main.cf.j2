@@ -123,7 +123,7 @@ virtual_mailbox_domains =
 	{{ domain }}
 {% endfor %}
 {% endif %}
-virtual_mailbox_base = /var/mail/vhosts
+virtual_mailbox_base = {{ mail_location }}
 virtual_mailbox_maps = hash:/etc/postfix/virtual_mailbox_maps
 virtual_alias_maps = hash:/etc/postfix/virtual_alias_maps
 virtual_transport = lmtp:inet:{{ hostvars['dovecot']['ansible_default_ipv4']['address'] }}:24

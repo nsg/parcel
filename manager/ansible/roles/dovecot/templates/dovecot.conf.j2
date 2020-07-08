@@ -14,7 +14,7 @@ protocol lmtp {
 }
 
 # Manage mailes in a domain based structure
-mail_location = maildir:/var/mail/vhosts/%d/%n
+mail_location = maildir:{{ mail_location }}/%d/%n
 
 # Use the mail group for dotlocks
 mail_privileged_group = mail
@@ -37,7 +37,7 @@ ssl_client_ca_dir = /etc/ssl/certs
 userdb {
   driver = passwd-file
   args = username_format=%u /etc/dovecot/userdb
-  default_fields = uid=vmail gid=vmail home=/var/mail/vhosts/%d/%n
+  default_fields = uid=vmail gid=vmail home={{ mail_location }}/%d/%n
 }
 
 passdb {
@@ -98,5 +98,5 @@ namespace inbox {
 }
 
 plugin {
-  sieve = /var/mail/vhosts/%d/%n/.dovecot.sieve
+  sieve = {{ mail_location }}/%d/%n/.dovecot.sieve
 }
