@@ -1,15 +1,15 @@
 <source>
-  @type         forward
-  bind          0.0.0.0
-  port          24284
+  @Type         forward
+  Bind          0.0.0.0
+  Port          24284
 </source>
 
 <match **>
-  @type file
-  path /var/www/html/forward
-  format template
+  @Type file
+  Path /var/www/html/forward
+  Format template
   Template {log}
-  time_slice_wait 24h
-  buffer_path /var/www/html/forward.*
-  append true
+  Time_slice_wait 24h
+  Buffer_path /var/www/html/forward.*
+  Append true
 </match>
