@@ -1,15 +1,6 @@
 
 var running_state = null
 
-function trigger() {
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.open("POST", "/api/ansible", true);
-  xmlhttp.send();
-  writeMessage("Provision will be trigged in a few seconds.");
-
-  return false;
-}
-
 window.onload = function() {
   apicall("/api/ansible", function(ret) {
 

@@ -13,6 +13,15 @@ function navbar_prov_status(msg) {
     document.getElementById("navbar-prov-status").innerHTML = msg;
 }
 
+function trigger() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "/api/ansible", true);
+    xmlhttp.send();
+    writeMessage("Provision will be trigged in a few seconds.");
+  
+    return false;
+  }
+  
 function update_ansible_status_call() {
     apicall("/api/ansible", function(ret) {
 

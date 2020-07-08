@@ -64,12 +64,14 @@ function save_data(save_button, values_str) {
         success: null,
         contentType : 'application/json'
     }).done(function() {
+        trigger();
         setTimeout(function() {
             save_button.classList.remove("button-saving");
             save_button.innerHTML = orig_save_button_string;
+            update_ansible_status_call();
         }, 1000);
     });
-
+    
     return false;
 }
 
