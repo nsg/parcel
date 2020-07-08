@@ -1,4 +1,5 @@
 # Parcel
+[![parcel](https://snapcraft.io//parcel/badge.svg)](https://snapcraft.io/parcel)
 
 ## About
 
