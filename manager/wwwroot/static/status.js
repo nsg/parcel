@@ -71,19 +71,25 @@ function update_status() {
 
     apicall("/fluentd/", function(files) {
         status_logs = document.getElementById("status-logs");
-        files.forEach(file => {
 
+        var latest_file = { time: 0, name: "" };
+        files.forEach(file => {
             if(/\.log$/.test(file.name)) {
-                $.get("/fluentd/" + file.name, function(logs) {
-                    var log_list = logs.split("\n").slice(-1024).reverse();
-                    status_logs.innerHTML = '';
-                    log_list.forEach(el => {
-                        p = document.createElement("p");
-                        p.innerHTML = el;
-                        status_logs.appendChild(p);
-                    });
-                });
+                if (Date.parse(file.mtime) > latest_file.time) {
+                    latest_file.time = Date.parse(file.mtime);
+                    latest_file.name = file.name
+                }
             }
+        });
+
+        $.get("/fluentd/" + latest_file.name, function(logs) {
+            var log_list = logs.split("\n").slice(-1024).reverse();
+            status_logs.innerHTML = '';
+            log_list.forEach(el => {
+                p = document.createElement("p");
+                p.innerHTML = el;
+                status_logs.appendChild(p);
+            });
         });
     });
 
