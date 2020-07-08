@@ -60,10 +60,3 @@
     dest: /etc/postfix/transport_maps
   notify: reload transport_maps
   tags: transport_maps
-
-- name: Configure postfix stats in collectd
-  copy:
-    src: collectd.conf
-    dest: /etc/collectd.d/postfix.conf
-  notify: restart collectd
-  when: deploy_collectd_stats
