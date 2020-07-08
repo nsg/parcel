@@ -1,14 +1,14 @@
 <source>
-  @Type         forward
-  Bind          0.0.0.0
-  Port          24284
+  @type         forward
+  bind          0.0.0.0
+  port          24284
 </source>
 
 <match **>
-  @Type file
-  Path /var/www/html/forward
-  Format json
-  Time_slice_wait 24h
-  Buffer_path /var/www/html/forward.*
-  Append true
+  @type file
+  path /var/www/html/forward
+  format json
+  time_slice_wait 24h
+  buffer_path /var/www/html/forward.*
+  append true
 </match>
